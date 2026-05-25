@@ -25,7 +25,7 @@
       /* ── Marca ── */
       case 'brand':
         return {
-          text: 'EQCLYPSE nació en esas cenas eternas donde un grupo de amigos decidieron tomar las riendas de su consumo de vino.\n\nVinos tempranillo en botellín de 33 cl, pensados para un público que el sector tenía completamente ignorado: la juventud.\n\nEl nombre viene del latín: eclipse significa abandono. Y eso es exactamente lo que el mundo del vino ha hecho con los jóvenes durante décadas. Nosotros lo cambiamos.\n\nAstronómicamente, un eclipse es la conjunción de dos astros en un mismo momento vital. El nuestro: el vino y la juventud.',
+          text: 'EQCLYPSE es una marca de vinos tempranillos enfocada en el público más joven. Todo empezó en esas cenas eternas donde un grupo de amigos decidieron tomar las riendas de su consumo de vino y llevar su enfoque a un público totalmente nuevo.\n\nEn cuanto al nombre: eclipse en latín significa desesperación o abandono. Elegimos ese nombre porque a nivel astronómico es la conjunción de dos astros en un mismo momento vital. En este caso, eclipse es la conjunción del vino con la juventud, y a su vez también representa simbólicamente el abandono del sector a un nicho poblacional: la juventud.',
           opts: [
             { label: 'Variedades de vino',      id: 'varieties'  },
             { label: '¿Qué es el 0.0?',         id: 'zero'       },
@@ -37,7 +37,7 @@
       /* ── Variedades ── */
       case 'varieties':
         return {
-          text: 'Cuatro referencias, todas en botellín de 33 cl:\n\n🍷 Tinto — Tempranillo joven. 8,2°. Oscuro, directo y fácil de abrir.\n🥂 Blanco — Ligero y frío. 7,1°. Para terraza, sushi y lo que se tercie.\n🌸 Rosado — 6,6°. La hora dorada embotellada.\n⭕ Blanco 0.0 — Sin alcohol. Para cuando no quieres pero tampoco quieres quedarte fuera.',
+          text: 'Tenemos cuatro variedades, todas en botellín de 33 cl:\n\n🍷 Tinto — 8,2°\n🥂 Blanco — 7,1°\n🌸 Rosado — 6,6°\n⭕ Blanco 0.0 — 0,0% alcohol',
           opts: [
             { label: 'Temperatura de servicio', id: 'temperature' },
             { label: 'Maridajes',               id: 'pairing'     },
@@ -49,7 +49,7 @@
       /* ── Botellín 0.0 ── */
       case 'zero':
         return {
-          text: 'El Blanco 0.0 es vino blanco semidulce dealcoholizado. Mismo carácter, cero alcohol.\n\nPerfecto para conducir, para quienes no quieren alcohol o simplemente para cuando no apetece pero quieres seguir con una copa en la mano.\n\nMismo formato 33 cl. Mismo protocolo: ninguno.',
+          text: 'El Blanco 0.0 es un vino blanco semidulce sin alcohol. Está dentro de nuestra gama de cuatro variedades y tiene exactamente 0,0% de alcohol.\n\nEs la opción perfecta para quienes no quieren alcohol pero quieren seguir siendo parte del plan.',
           opts: [
             { label: 'Maridajes',          id: 'pairing'   },
             { label: 'Ver todos los vinos', id: 'varieties' },
@@ -60,7 +60,7 @@
       /* ── Graduación ── */
       case 'alcohol':
         return {
-          text: 'Las graduaciones de EQCLYPSE son bajas y ligeras, perfectas para beber tranquilamente:\n\n🍷 Tinto — 8,2°\n🥂 Blanco — 7,1°\n🌸 Rosado — 6,6°\n⭕ Blanco 0.0 — 0,0%\n\nPensados para disfrutar sin que la noche se te vaya de las manos.',
+          text: 'Las graduaciones son:\n\n🍷 Tinto — 8,2°\n🥂 Blanco — 7,1°\n🌸 Rosado — 6,6°\n⭕ Blanco 0.0 — 0,0%',
           opts: [
             { label: '¿Qué es el 0.0?',         id: 'zero'        },
             { label: 'Temperatura de servicio', id: 'temperature' },
@@ -101,7 +101,7 @@
       /* ── Precios ── */
       case 'price':
         return {
-          text: 'Precio por botellín:\n\n🍺 En bares: 2,80 €\n🍽️ En restaurantes: 3,50 €\n\nPacks (con envío incluido o a coste reducido):\n📦 Cata Nocturna — 6 botellines mixtos → 15,90 €\n📦 Urban Night — 12 botellines mixtos → 33,00 €',
+          text: 'El precio del botellín es de 2,80 € en bares y 3,50 € en restaurantes.\n\nEn cuanto a los packs:\n📦 Cata Nocturna — 6 botellines mixtos — 15,90 €\n📦 Urban Night — 12 botellines mixtos — 33,00 €',
           opts: [
             { label: '¿Qué incluyen los packs?', id: 'packs'        },
             { label: 'Cómo pedir',               id: 'how_to_order' },
@@ -112,7 +112,7 @@
       /* ── Packs ── */
       case 'packs':
         return {
-          text: 'Dos packs disponibles ahora mismo:\n\n📦 Cata Nocturna — 15,90 €\n6 botellines mixtos. El plan para cuando sois pocos y queréis probarlo todo.\n\n📦 Urban Night — 33,00 €\n12 botellines mixtos. Para la previa en condiciones, la terraza larga o el plan de última hora.\n\nTodos mixtos: tú eliges si mezclas tintos, blancos, rosados o 0.0.',
+          text: 'Tenemos dos packs:\n\n📦 Cata Nocturna — 15,90 € — incluye 6 botellines mixtos\n📦 Urban Night — 33,00 € — incluye 12 botellines mixtos',
           opts: [
             { label: 'Precios',          id: 'price'        },
             { label: 'Cómo pedir',       id: 'how_to_order' },
@@ -123,7 +123,7 @@
       /* ── Envío ── */
       case 'shipping':
         return {
-          text: 'Enviamos a España, Europa y a nivel internacional:\n\n🇪🇸 España — 3,50 € · 24-48 h\n🇪🇺 Europa — 15,99 € · 4-6 días laborables\n🌍 Internacional — 30,99 € · a partir de 7 días laborables desde que sale del almacén\n\nPara pedidos grandes o eventos, escríbenos directamente.',
+          text: 'Enviamos a toda España, Europa e internacionalmente.\n\n🇪🇸 España — 3,50 € — 24-48 horas\n🇪🇺 Europa — 15,99 € — 4 a 6 días laborables\n🌍 Internacional — 30,99 € — a partir de 7 días laborables desde que el pedido sale del almacén',
           opts: [
             { label: 'Cómo pedir',        id: 'how_to_order' },
             { label: 'Ver los packs',     id: 'packs'        },
@@ -134,7 +134,7 @@
       /* ── Cómo pedir ── */
       case 'how_to_order':
         return {
-          text: 'Puedes pedir de dos formas:\n\n💬 WhatsApp → 666 777 888\n📧 Email → hola@eqclypse.com\n\nTambién puedes añadir al carrito desde la web y finalizar el pedido por WhatsApp o email directamente desde ahí.\n\nNos ponemos en contacto para confirmar y coordinar el pago.',
+          text: 'Puedes pedir por WhatsApp o por email.\n\n💬 WhatsApp — 666 777 888\n📧 Email — hola@eqclypse.com',
           opts: [
             { label: 'Ver los packs',    id: 'packs'    },
             { label: 'Costes de envío', id: 'shipping' },
@@ -166,7 +166,7 @@
       /* ── Contacto ── */
       case 'contact':
         return {
-          text: 'Encuéntranos aquí:\n\n📧 hola@eqclypse.com\n💬 WhatsApp: 666 777 888\n📸 Instagram: @eqclypse\n🎵 TikTok: @eqclypse\n\nPara pedidos, el WhatsApp es lo más rápido.',
+          text: '📧 hola@eqclypse.com\n💬 WhatsApp: 666 777 888\n📸 Instagram: @eqclypse\n🎵 TikTok: @eqclypse',
           opts: [
             { label: 'Cómo pedir',    id: 'how_to_order' },
             { label: 'Ver los packs', id: 'packs'        },
