@@ -13,7 +13,7 @@
   --shadow-strong: 0 26px 90px rgba(23, 23, 20, 0.32);
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Manrope", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --header-height: 78px;
+  --header-height: 116px;
 }
 
 * {
@@ -237,35 +237,29 @@ h3 {
   top: 0;
   z-index: 80;
   display: grid;
-  grid-template-columns: minmax(170px, 1fr) auto minmax(128px, 1fr);
+  grid-template-columns: minmax(190px, 1fr) auto minmax(128px, 1fr);
   align-items: center;
   min-height: var(--header-height);
-  padding: 12px 4vw;
+  padding: 10px 4vw;
   border-bottom: 1px solid rgba(23, 23, 20, 0.09);
   background: rgba(250, 248, 240, 0.84);
   backdrop-filter: blur(18px);
 }
 
 .brand-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+  display: inline-grid;
+  place-items: center;
   width: fit-content;
-  font-weight: 800;
-  letter-spacing: 0.08em;
 }
 
 .brand-mark img {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 98px;
+  height: 98px;
+  border: 1px solid rgba(23, 23, 20, 0.12);
+  border-radius: 6px;
+  object-fit: contain;
   object-position: center;
-  background: var(--stone);
-}
-
-.brand-mark span {
-  font-size: 0.86rem;
+  background: rgba(250, 248, 240, 0.7);
 }
 
 .desktop-nav {
@@ -588,6 +582,12 @@ h3 {
   object-fit: cover;
   object-position: center;
   filter: drop-shadow(0 28px 32px rgba(23, 23, 20, 0.22));
+}
+
+.product-card[data-product-card^="pack-"] .product-card__media img {
+  width: min(92%, 360px);
+  height: 340px;
+  object-fit: cover;
 }
 
 .product-card__badges {
@@ -953,11 +953,17 @@ h3 {
 }
 
 .age-gate,
+.cookie-banner,
 .cart-drawer,
 .legal-modal {
   position: fixed;
-  inset: 0;
   z-index: 200;
+}
+
+.age-gate,
+.cart-drawer,
+.legal-modal {
+  inset: 0;
 }
 
 .age-gate {
@@ -996,6 +1002,47 @@ h3 {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 26px;
+}
+
+.cookie-banner {
+  right: 22px;
+  bottom: 22px;
+  left: 22px;
+  display: none;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  max-width: 980px;
+  margin-inline: auto;
+  padding: 18px;
+  border: 1px solid rgba(23, 23, 20, 0.14);
+  border-radius: 8px;
+  background: rgba(250, 248, 240, 0.96);
+  box-shadow: var(--shadow-strong);
+}
+
+.cookie-banner.is-open {
+  display: grid;
+}
+
+.cookie-banner h2 {
+  margin-bottom: 6px;
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.cookie-banner p {
+  margin-bottom: 0;
+  color: var(--stone-dark);
+  font-size: 0.9rem;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
 }
 
 .cart-drawer,
@@ -1235,7 +1282,7 @@ h3 {
 
 @media (max-width: 900px) {
   :root {
-    --header-height: 70px;
+    --header-height: 94px;
   }
 
   .section {
@@ -1295,14 +1342,8 @@ h3 {
   }
 
   .brand-mark img {
-    width: 44px;
-    height: 44px;
-  }
-
-  .brand-mark span {
-    max-width: 126px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 76px;
+    height: 76px;
   }
 
   .hero {
@@ -1311,7 +1352,9 @@ h3 {
   }
 
   .hero__actions,
-  .age-gate__actions {
+  .age-gate__actions,
+  .cookie-banner,
+  .cookie-banner__actions {
     display: grid;
   }
 

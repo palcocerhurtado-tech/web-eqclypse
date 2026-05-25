@@ -58,8 +58,8 @@ const PRODUCTS = [
     type: "6 botellines mixtos",
     description:
       "Una selección para probar EQCLYPSE sin estudiar vino. Abre, enfría y elige tu momento.",
-    image: "assets/brand-board.png",
-    alt: "Pack mixto EQCLYPSE con botellines de varios estilos",
+    image: "assets/pack-cata-nocturna.png",
+    alt: "Pack Cata Nocturna de EQCLYPSE con seis botellines mixtos",
     badges: ["Pack"],
     options: [{ id: "pack", label: "Pack 6 mixto", price: 15.9 }],
   },
@@ -68,10 +68,10 @@ const PRODUCTS = [
     name: "Pack Urban Night",
     type: "12 botellines mixtos",
     description: "Para previa, terraza o cena en casa. Doce botellines, cero protocolo.",
-    image: "assets/brand-board.png",
-    alt: "Pack Urban Night EQCLYPSE con selección mixta de botellines",
+    image: "assets/pack-urban-night.png",
+    alt: "Pack Urban Night de EQCLYPSE con doce botellines mixtos",
     badges: ["Pack"],
-    options: [{ id: "pack", label: "Pack 12 mixto", price: 29.9 }],
+    options: [{ id: "pack", label: "Pack 12 mixto", price: 33 }],
   },
 ];
 
@@ -95,7 +95,7 @@ const LEGAL_CONTENT = {
   cookies: {
     title: "Política de cookies",
     body: `
-      <p>Esta V1 no instala cookies de terceros. Utiliza localStorage para recordar el aviso de mayoría de edad, el carrito y el registro local de El Círculo.</p>
+      <p>Esta V1 no instala cookies de terceros. Utiliza localStorage para recordar la preferencia de cookies, el carrito y el registro local de El Círculo.</p>
       <p>Si se añaden analítica, píxeles publicitarios o herramientas externas, esta política deberá actualizarse.</p>
     `,
   },
@@ -147,6 +147,9 @@ function cacheElements() {
   els.ageGate = document.querySelector("#ageGate");
   els.ageAccept = document.querySelector("#ageAccept");
   els.ageExit = document.querySelector("#ageExit");
+  els.cookieBanner = document.querySelector("#cookieBanner");
+  els.cookieAccept = document.querySelector("#cookieAccept");
+  els.cookieReject = document.querySelector("#cookieReject");
   els.productGrid = document.querySelector("#productGrid");
   els.cartDrawer = document.querySelector("#cartDrawer");
   els.cartItems = document.querySelector("#cartItems");
@@ -164,23 +167,36 @@ function cacheElements() {
 }
 
 function setupAgeGate() {
-  const accepted = localStorage.getItem("eqclypse_age_ok") === "true";
-
-  if (!accepted) {
-    els.ageGate.classList.add("is-open");
-    els.body.classList.add("is-locked");
-    window.setTimeout(() => els.ageAccept.focus(), 120);
-  }
+  els.ageGate.classList.add("is-open");
+  els.body.classList.add("is-locked");
+  window.setTimeout(() => els.ageAccept.focus(), 120);
 
   els.ageAccept.addEventListener("click", () => {
-    localStorage.setItem("eqclypse_age_ok", "true");
     els.ageGate.classList.remove("is-open");
     els.body.classList.remove("is-locked");
+    setupCookieBanner();
   });
 
   els.ageExit.addEventListener("click", () => {
     window.location.href = "about:blank";
   });
+}
+
+function setupCookieBanner() {
+  const preference = localStorage.getItem("eqclypse_cookie_preference");
+  if (preference) return;
+
+  els.cookieBanner.classList.add("is-open");
+  els.cookieBanner.setAttribute("aria-hidden", "false");
+
+  const closeBanner = (value) => {
+    localStorage.setItem("eqclypse_cookie_preference", value);
+    els.cookieBanner.classList.remove("is-open");
+    els.cookieBanner.setAttribute("aria-hidden", "true");
+  };
+
+  els.cookieAccept.addEventListener("click", () => closeBanner("accepted"), { once: true });
+  els.cookieReject.addEventListener("click", () => closeBanner("necessary"), { once: true });
 }
 
 function setupHeader() {

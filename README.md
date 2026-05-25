@@ -16,6 +16,8 @@ web eqclypse/
     ├── botella-blanco.png
     ├── botella-rosado.png
     ├── botella-blanco-00.png
+    ├── pack-cata-nocturna.png
+    ├── pack-urban-night.png
     ├── etiqueta-eqclypse.png
     ├── brand-board.png
     └── favicon.png
