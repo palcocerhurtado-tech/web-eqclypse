@@ -702,6 +702,7 @@ h3 {
   place-items: center;
   min-height: 360px;
   padding: 22px;
+  overflow: hidden;
   background:
     linear-gradient(180deg, rgba(181, 181, 182, 0.2), rgba(243, 239, 226, 0.8)),
     var(--cream);
@@ -719,13 +720,14 @@ h3 {
 .product-card[data-product-card^="pack-"] .product-card__media img {
   width: min(92%, 360px);
   height: 340px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .product-card__badges {
   position: absolute;
   top: 16px;
   left: 16px;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -1657,6 +1659,489 @@ h3 {
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ─── Cámara Velada ─── */
+
+.camara-velada {
+  display: none;
+  background: var(--black);
+  color: var(--cream);
+  padding: 104px 6vw;
+  border-top: 1px solid rgba(255, 215, 91, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.camara-velada::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60vw;
+  height: 60vw;
+  max-width: 700px;
+  max-height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 91, 0.08), transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.camara-velada.is-visible {
+  display: block;
+}
+
+.camara-velada__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.camara-velada__header {
+  margin-bottom: 52px;
+}
+
+.camara-velada__header h2 {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.camara-velada__sub {
+  color: rgba(243, 239, 226, 0.55);
+  font-size: 1.08rem;
+}
+
+.camara-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2px;
+  margin-bottom: 52px;
+}
+
+.camara-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 215, 91, 0.1);
+  border-radius: 0;
+  overflow: hidden;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.camara-card:hover {
+  border-color: rgba(255, 215, 91, 0.3);
+  background: rgba(255, 215, 91, 0.04);
+}
+
+.camara-card__media {
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 215, 91, 0.08);
+}
+
+.camara-card__placeholder {
+  font-size: 4rem;
+  color: rgba(255, 215, 91, 0.18);
+  line-height: 1;
+  font-family: var(--serif);
+}
+
+.camara-card__body {
+  padding: 22px 20px;
+}
+
+.camara-card__meta {
+  color: var(--aged-gold);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.camara-card h3 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+
+.camara-card p {
+  color: rgba(243, 239, 226, 0.5);
+  font-size: 0.88rem;
+  margin-bottom: 0;
+}
+
+.camara-card__price {
+  margin-top: 14px !important;
+  color: var(--gold) !important;
+  font-size: 1.1rem !important;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.camara-velada__cta {
+  text-align: center;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 215, 91, 0.1);
+}
+
+.camara-velada__cta p {
+  color: rgba(243, 239, 226, 0.45);
+  font-size: 0.92rem;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 1100px) {
+  .camara-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .camara-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .camara-velada {
+    padding: 72px 5vw;
+  }
+}
+
+/* ─── Chatbot EQCLYPSE ─── */
+
+.eq-chat {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 210;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.eq-chat__toggle {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--aged-gold), var(--gold));
+  color: var(--black);
+  box-shadow: 0 8px 28px rgba(255, 215, 91, 0.38);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  flex-shrink: 0;
+}
+
+.eq-chat__toggle:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(255, 215, 91, 0.5);
+}
+
+.eq-chat__toggle svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--black);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.eq-chat__toggle-icon,
+.eq-chat__toggle-close {
+  display: grid;
+  place-items: center;
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.eq-chat__toggle-close {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-45deg) scale(0.7);
+}
+
+.eq-chat.is-open .eq-chat__toggle-icon {
+  opacity: 0;
+  transform: rotate(45deg) scale(0.7);
+}
+
+.eq-chat.is-open .eq-chat__toggle-close {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.eq-chat__panel {
+  display: none;
+  flex-direction: column;
+  width: min(380px, calc(100vw - 28px));
+  max-height: min(600px, calc(100vh - 120px));
+  border: 1px solid rgba(255, 215, 91, 0.18);
+  border-radius: 0;
+  background: rgba(15, 14, 12, 0.98);
+  box-shadow: 0 24px 72px rgba(15, 14, 12, 0.7);
+  overflow: hidden;
+}
+
+.eq-chat__panel.is-open {
+  display: flex;
+}
+
+.eq-chat__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 215, 91, 0.1);
+  background: rgba(255, 215, 91, 0.05);
+  flex-shrink: 0;
+}
+
+.eq-chat__header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eq-chat__avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--aged-gold), var(--gold));
+  color: var(--black);
+  font-family: var(--display);
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.eq-chat__name {
+  margin: 0;
+  color: var(--cream);
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.eq-chat__status {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.eq-chat__close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 215, 91, 0.15);
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(243, 239, 226, 0.5);
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.eq-chat__close:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.eq-chat__close svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.eq-chat__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+
+.eq-chat__messages::-webkit-scrollbar {
+  width: 4px;
+}
+
+.eq-chat__messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.eq-chat__messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 91, 0.2);
+  border-radius: 2px;
+}
+
+.eq-msg {
+  max-width: 86%;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-radius: 0;
+}
+
+.eq-msg--bot {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--cream);
+  border-left: 2px solid rgba(255, 215, 91, 0.3);
+}
+
+.eq-msg--user {
+  align-self: flex-end;
+  background: rgba(255, 215, 91, 0.12);
+  color: var(--cream);
+  border-right: 2px solid rgba(255, 215, 91, 0.5);
+}
+
+.eq-msg--quiz {
+  align-self: flex-start;
+  background: rgba(255, 215, 91, 0.07);
+  color: var(--gold);
+  border-left: 2px solid var(--gold);
+  font-weight: 700;
+  width: 86%;
+  max-width: 86%;
+}
+
+.eq-msg--system {
+  align-self: center;
+  color: rgba(243, 239, 226, 0.35);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 0;
+  background: transparent;
+}
+
+.eq-chat__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(255, 215, 91, 0.07);
+  flex-shrink: 0;
+}
+
+.eq-opt {
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 215, 91, 0.25);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(243, 239, 226, 0.75);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
+  text-align: left;
+}
+
+.eq-opt:hover,
+.eq-opt:focus-visible {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(255, 215, 91, 0.07);
+}
+
+.eq-opt--answer {
+  border-color: rgba(198, 162, 60, 0.4);
+  color: var(--gold);
+}
+
+.eq-chat__form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0;
+  border-top: 1px solid rgba(255, 215, 91, 0.1);
+  flex-shrink: 0;
+}
+
+.eq-chat__input {
+  min-height: 48px;
+  padding: 12px 16px;
+  border: none;
+  border-right: 1px solid rgba(255, 215, 91, 0.1);
+  background: transparent;
+  color: var(--cream);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.eq-chat__input::placeholder {
+  color: rgba(243, 239, 226, 0.28);
+}
+
+.eq-chat__send {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 215, 91, 0.55);
+  transition: color 140ms ease;
+}
+
+.eq-chat__send:hover {
+  color: var(--gold);
+}
+
+.eq-chat__send svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Camera velada mode — gold-black inversion */
+.eq-chat.is-camara .eq-chat__panel {
+  border-color: rgba(255, 215, 91, 0.4);
+  background: rgba(10, 8, 4, 0.99);
+}
+
+.eq-chat.is-camara .eq-chat__header {
+  background: rgba(255, 215, 91, 0.08);
+  border-bottom-color: rgba(255, 215, 91, 0.2);
+}
+
+.eq-chat.is-camara .eq-chat__avatar {
+  background: linear-gradient(135deg, #1a1000, #3a2800);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.eq-chat.is-camara .eq-chat__status {
+  color: rgba(255, 215, 91, 0.7);
+}
+
+@media (max-width: 480px) {
+  .eq-chat {
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .eq-chat__panel {
+    width: calc(100vw - 16px);
+  }
 }
 
 /* ─── Reduced motion ─── */

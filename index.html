@@ -129,7 +129,7 @@
         <a href="#botellines">Botellines</a>
         <a href="#packs">Packs</a>
         <a href="#circulo">El Círculo</a>
-        <a href="#manifiesto">Manifiesto</a>
+        <a href="#historia">La historia</a>
         <a href="#contacto">Contacto</a>
       </nav>
 
@@ -158,7 +158,7 @@
         <a href="#botellines">Botellines</a>
         <a href="#packs">Packs</a>
         <a href="#circulo">El Círculo</a>
-        <a href="#manifiesto">Manifiesto</a>
+        <a href="#historia">La historia</a>
         <a href="#contacto">Contacto</a>
       </nav>
     </header>
@@ -319,10 +319,10 @@
         </div>
       </section>
 
-      <section class="manifesto section" id="manifiesto">
+      <section class="manifesto section" id="historia">
         <div class="manifesto__quote-mark" aria-hidden="true">"</div>
         <div class="manifesto__inner reveal">
-          <p class="eyebrow">Manifiesto</p>
+          <p class="eyebrow">Lo que hay detrás</p>
           <h2>Hubo un tiempo en que beber vino era un examen.</h2>
           <div class="manifesto__text">
             <p>Saber elegir, saber pronunciar, saber callar.</p>
@@ -377,7 +377,7 @@
         </div>
       </section>
 
-      <section class="section locations-section" id="contacto">
+      <section class="section locations-section" id="ruta">
         <div class="section-heading reveal">
           <p class="eyebrow">Ruta</p>
           <h2>Encuentra EQCLYPSE</h2>
@@ -404,13 +404,13 @@
       </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" id="contacto">
       <div class="footer-brand">
         <img src="assets/logo-eqclypse.png" alt="Logo de EQCLYPSE" loading="lazy" />
         <p>DEEP. ELEGANT. TIMELESS.</p>
       </div>
       <nav class="footer-nav" aria-label="Enlaces de pie de página">
-        <a href="#manifiesto">Manifiesto</a>
+        <a href="#historia">La historia</a>
         <a href="#botellines">Botellines</a>
         <a href="#circulo">El Círculo</a>
         <a href="#contacto">Contacto</a>
@@ -479,6 +479,102 @@
       </section>
     </div>
 
+    <!-- ─── Cámara Velada (oculta hasta desbloqueo por quiz) ─── -->
+    <section class="camara-velada" id="camaraVelada" aria-hidden="true">
+      <div class="camara-velada__inner">
+        <div class="camara-velada__header reveal">
+          <p class="eyebrow">Acceso exclusivo</p>
+          <h2>La Cámara Velada</h2>
+          <p class="camara-velada__sub">Solo para quienes saben. Artículos que no están en ningún otro sitio.</p>
+        </div>
+        <div class="camara-grid">
+          <article class="camara-card reveal">
+            <div class="camara-card__media">
+              <div class="camara-card__placeholder" aria-hidden="true">◯</div>
+            </div>
+            <div class="camara-card__body">
+              <p class="camara-card__meta">Edición limitada</p>
+              <h3>Posavasos EQCLYPSE</h3>
+              <p>Eclipse grabado. Negro y dorado. Para los que saben dejar huella.</p>
+              <p class="camara-card__price">— €</p>
+            </div>
+          </article>
+          <article class="camara-card reveal">
+            <div class="camara-card__media">
+              <div class="camara-card__placeholder" aria-hidden="true">◯</div>
+            </div>
+            <div class="camara-card__body">
+              <p class="camara-card__meta">Edición limitada</p>
+              <h3>Hielera EQCLYPSE</h3>
+              <p>Acero inoxidable. Logo eclipse en relieve. La temperatura perfecta.</p>
+              <p class="camara-card__price">— €</p>
+            </div>
+          </article>
+          <article class="camara-card reveal">
+            <div class="camara-card__media">
+              <div class="camara-card__placeholder" aria-hidden="true">◯</div>
+            </div>
+            <div class="camara-card__body">
+              <p class="camara-card__meta">Edición limitada</p>
+              <h3>Copa EQCLYPSE</h3>
+              <p>Cristal fino. Grabado artesanal. Beber con estilo, sin protocolo.</p>
+              <p class="camara-card__price">— €</p>
+            </div>
+          </article>
+          <article class="camara-card reveal">
+            <div class="camara-card__media">
+              <div class="camara-card__placeholder" aria-hidden="true">◯</div>
+            </div>
+            <div class="camara-card__body">
+              <p class="camara-card__meta">Pack exclusivo</p>
+              <h3>Pack Íntimo</h3>
+              <p>Copa + hielera + 6 botellines seleccionados. Solo aquí. Solo ahora.</p>
+              <p class="camara-card__price">— €</p>
+            </div>
+          </article>
+        </div>
+        <div class="camara-velada__cta reveal">
+          <p>Estos artículos son exclusivos para miembros que han superado el ritual de acceso.</p>
+          <a class="button button--light" href="mailto:hola@eqclypse.com?subject=Cámara Velada">Solicitar por email</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Chatbot EQCLYPSE ─── -->
+    <div class="eq-chat" id="eqChat" aria-live="polite">
+      <button class="eq-chat__toggle" id="eqChatToggle" type="button" aria-label="Abrir chat EQCLYPSE" aria-expanded="false">
+        <span class="eq-chat__toggle-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </span>
+        <span class="eq-chat__toggle-close" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </span>
+      </button>
+      <div class="eq-chat__panel" id="eqChatPanel" aria-hidden="true" role="dialog" aria-label="Chat EQCLYPSE">
+        <div class="eq-chat__header">
+          <div class="eq-chat__header-info">
+            <span class="eq-chat__avatar" aria-hidden="true">EQ</span>
+            <div>
+              <p class="eq-chat__name">EQCLYPSE</p>
+              <p class="eq-chat__status">En línea</p>
+            </div>
+          </div>
+          <button class="eq-chat__close" type="button" aria-label="Cerrar chat" id="eqChatClose">
+            <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <div class="eq-chat__messages" id="eqChatMessages" aria-live="polite"></div>
+        <div class="eq-chat__options" id="eqChatOptions"></div>
+        <form class="eq-chat__form" id="eqChatForm" autocomplete="off">
+          <input class="eq-chat__input" id="eqChatInput" type="text" placeholder="Escribe algo..." maxlength="200" />
+          <button class="eq-chat__send" type="submit" aria-label="Enviar">
+            <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
     <script src="script.js"></script>
+    <script src="chatbot-eqclypse.js"></script>
   </body>
 </html>
