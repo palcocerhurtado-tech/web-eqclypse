@@ -1,13 +1,12 @@
 /**
- * chatbot-eqclypse.js — v3
- * Arquitectura: switch directo, sin INTENT_MAP dinámico.
- * Los botones de opción despachan por ID, inmune a NLP.
+ * chatbot-eqclypse.js — v4 (datos reales)
+ * Arquitectura: switch directo hardcodeado con información real de la marca.
  */
 (function () {
   'use strict';
 
   var STORAGE_KEY = 'eqclypse_camara_v1';
-  var DELAY = 580;
+  var DELAY = 560;
 
   /* ─── Estado ─────────────────────────────────────────────── */
   var S = {
@@ -19,35 +18,26 @@
     quizCorrect    : 0,
   };
 
-  /* ─── Respuestas hardcodeadas ─────────────────────────────── */
+  /* ─── Respuestas con información real ─────────────────────── */
   function getResponse(id) {
     switch (id) {
 
-      case 'greeting':
-        return {
-          text: '¡Hola! Soy el asistente de EQCLYPSE. ¿En qué puedo ayudarte?',
-          opts: [
-            { label: '¿Qué es EQCLYPSE?',      id: 'brand'          },
-            { label: 'Botellines y variedades', id: 'varieties'      },
-            { label: 'Precios y packs',         id: 'price'          },
-            { label: 'Envío y entrega',         id: 'shipping'       },
-            { label: '🔒 Acceso exclusivo',     id: 'camara_trigger' },
-          ],
-        };
-
+      /* ── Marca ── */
       case 'brand':
         return {
-          text: 'EQCLYPSE es vino joven en botellín de 33 cl. Sin protocolo, sin complicaciones.\n\nFormato cerveza, alma vino. Pensado para beber frío, a cualquier hora, con quien quieras. Tinto, Blanco, Rosado y Blanco 0.0.\n\nDEEP. ELEGANT. TIMELESS.',
+          text: 'EQCLYPSE nació en esas cenas eternas donde un grupo de amigos decidieron tomar las riendas de su consumo de vino.\n\nVinos tempranillo en botellín de 33 cl, pensados para un público que el sector tenía completamente ignorado: la juventud.\n\nEl nombre viene del latín: eclipse significa abandono. Y eso es exactamente lo que el mundo del vino ha hecho con los jóvenes durante décadas. Nosotros lo cambiamos.\n\nAstronómicamente, un eclipse es la conjunción de dos astros en un mismo momento vital. El nuestro: el vino y la juventud.',
           opts: [
-            { label: 'Botellines y variedades', id: 'varieties' },
-            { label: '¿Qué es el 0.0?',         id: 'zero'      },
-            { label: 'Precios',                 id: 'price'     },
+            { label: 'Variedades de vino',      id: 'varieties'  },
+            { label: '¿Qué es el 0.0?',         id: 'zero'       },
+            { label: 'Precios',                 id: 'price'      },
+            { label: 'Dónde comprar',           id: 'where'      },
           ],
         };
 
+      /* ── Variedades ── */
       case 'varieties':
         return {
-          text: 'Tenemos cuatro referencias:\n\n🍷 Tinto — Joven, oscuro y directo.\n🥂 Blanco — Frío, limpio y ligero.\n🌸 Rosado — La hora dorada en botellín.\n⭕ Blanco 0.0 — Todo el gesto, cero alcohol.\n\nTodos en formato 33 cl. Pensados para beber fríos.',
+          text: 'Cuatro referencias, todas en botellín de 33 cl:\n\n🍷 Tinto — Tempranillo joven. 8,2°. Oscuro, directo y fácil de abrir.\n🥂 Blanco — Ligero y frío. 7,1°. Para terraza, sushi y lo que se tercie.\n🌸 Rosado — 6,6°. La hora dorada embotellada.\n⭕ Blanco 0.0 — Sin alcohol. Para cuando no quieres pero tampoco quieres quedarte fuera.',
           opts: [
             { label: 'Temperatura de servicio', id: 'temperature' },
             { label: 'Maridajes',               id: 'pairing'     },
@@ -56,9 +46,10 @@
           ],
         };
 
+      /* ── Botellín 0.0 ── */
       case 'zero':
         return {
-          text: 'El Blanco 0.0 de EQCLYPSE es vino blanco semidulce dealcoholizado. Tiene el mismo carácter que nuestro blanco, pero sin ni rastro de alcohol.\n\nPerfecto para conducir, para quienes no quieren alcohol o simplemente para cuando no apetece. Mismo formato 33 cl, sin protocolo.',
+          text: 'El Blanco 0.0 es vino blanco semidulce dealcoholizado. Mismo carácter, cero alcohol.\n\nPerfecto para conducir, para quienes no quieren alcohol o simplemente para cuando no apetece pero quieres seguir con una copa en la mano.\n\nMismo formato 33 cl. Mismo protocolo: ninguno.',
           opts: [
             { label: 'Maridajes',          id: 'pairing'   },
             { label: 'Ver todos los vinos', id: 'varieties' },
@@ -66,127 +57,137 @@
           ],
         };
 
-      case 'price':
-        return {
-          text: 'Cada botellín cuesta 2,80 €. Pequeño formato, precio justo.\n\nLos packs tienen su propio precio según unidades e incluyen mezcla de variedades. Para pedidos personalizados escríbenos a hola@eqclypse.com.',
-          opts: [
-            { label: '¿Qué packs hay?', id: 'packs'        },
-            { label: 'Cómo pedir',      id: 'how_to_order' },
-            { label: 'Envío',           id: 'shipping'     },
-          ],
-        };
-
-      case 'packs':
-        return {
-          text: 'Tenemos packs por momento:\n\n🌃 Urban Night — 12 botellines para previa.\n☀️ Golden Hour — Mix rosado + blanco.\n🍽️ Cena Improvisada — Mix tinto + blanco.\n🏙️ Pack Ciudad — Surtido mixto.\n\nCada pack pensado para una ocasión concreta.',
-          opts: [
-            { label: 'Precios',        id: 'price'        },
-            { label: 'Cómo pedir',     id: 'how_to_order' },
-            { label: 'Envío',          id: 'shipping'     },
-          ],
-        };
-
-      case 'shipping':
-        return {
-          text: 'Enviamos a toda España peninsular. Los gastos de envío se calculan según el volumen del pedido.\n\nPara pedidos grandes o eventos, consúltanos en hola@eqclypse.com.',
-          opts: [
-            { label: '¿Cuánto tarda?', id: 'delivery'     },
-            { label: 'Cómo pedir',     id: 'how_to_order' },
-            { label: 'Contacto',       id: 'contact'      },
-          ],
-        };
-
-      case 'delivery':
-        return {
-          text: 'El tiempo de entrega habitual es de 2 a 4 días laborables para España peninsular.\n\nSi necesitas algo urgente para un evento, escríbenos con antelación a hola@eqclypse.com.',
-          opts: [
-            { label: 'Gastos de envío', id: 'shipping'     },
-            { label: 'Cómo pedir',      id: 'how_to_order' },
-            { label: 'Contacto',        id: 'contact'      },
-          ],
-        };
-
-      case 'how_to_order':
-        return {
-          text: 'Pedir es sencillo:\n\n1. Elige tus botellines o packs en la web.\n2. Añádelos al carrito.\n3. Finaliza el pedido por WhatsApp o email desde el carrito.\n\nNos ponemos en contacto para confirmar y coordinar el pago.',
-          opts: [
-            { label: 'Precios',  id: 'price'    },
-            { label: 'Envío',    id: 'shipping' },
-            { label: 'Contacto', id: 'contact'  },
-          ],
-        };
-
-      case 'temperature':
-        return {
-          text: 'EQCLYPSE está pensado para beberse frío:\n\n• Blanco y Rosado: entre 6 y 10 °C.\n• Tinto: entre 10 y 14 °C.\n• 0.0: bien frío, entre 4 y 8 °C.\n\nDeja el botellín en la nevera al menos 2 horas antes. Sin enfriadera, sin protocolo.',
-          opts: [
-            { label: 'Maridajes',               id: 'pairing'   },
-            { label: 'Botellines y variedades', id: 'varieties' },
-          ],
-        };
-
-      case 'pairing':
-        return {
-          text: 'EQCLYPSE no necesita protocolo, pero si quieres ideas:\n\n🍷 Tinto — Embutidos, quesos curados, pasta.\n🥂 Blanco — Pescado, mariscos, ensaladas, sushi.\n🌸 Rosado — Aperitivos, tapas, pizzas ligeras.\n⭕ 0.0 — Todo lo anterior sin alcohol.\n\nLa regla real: lo que te apetezca con lo que tengas.',
-          opts: [
-            { label: 'Temperatura de servicio', id: 'temperature' },
-            { label: 'Botellines y variedades', id: 'varieties'   },
-          ],
-        };
-
+      /* ── Graduación ── */
       case 'alcohol':
         return {
-          text: 'Los botellines EQCLYPSE tienen una graduación de entre 11,5° y 12,5° según la variedad, típica de vinos jóvenes.\n\nEl Blanco 0.0 tiene graduación 0,0% — sin alcohol.',
+          text: 'Las graduaciones de EQCLYPSE son bajas y ligeras, perfectas para beber tranquilamente:\n\n🍷 Tinto — 8,2°\n🥂 Blanco — 7,1°\n🌸 Rosado — 6,6°\n⭕ Blanco 0.0 — 0,0%\n\nPensados para disfrutar sin que la noche se te vaya de las manos.',
           opts: [
             { label: '¿Qué es el 0.0?',         id: 'zero'        },
             { label: 'Temperatura de servicio', id: 'temperature' },
+            { label: 'Variedades',              id: 'varieties'   },
           ],
         };
 
+      /* ── Temperatura ── */
+      case 'temperature':
+        return {
+          text: 'EQCLYPSE se bebe frío, siempre:\n\n• Blanco y Rosado: entre 6 y 10 °C\n• Tinto: entre 10 y 14 °C\n• 0.0: bien frío, entre 4 y 8 °C\n\nMínimo 2 horas en nevera antes de abrir. Sin enfriadera, sin protocolo, sin excusas.',
+          opts: [
+            { label: 'Maridajes',               id: 'pairing'   },
+            { label: 'Variedades',              id: 'varieties' },
+          ],
+        };
+
+      /* ── Maridaje ── */
+      case 'pairing':
+        return {
+          text: 'Sin protocolo, pero con criterio:\n\n🍷 Tinto — Embutidos, queso curado, pasta, carnes a la brasa.\n🥂 Blanco — Pescado, mariscos, sushi, ensaladas, queso fresco.\n🌸 Rosado — Aperitivos, tapas, pizza, charcutería.\n⭕ 0.0 — Todo lo anterior. Sin alcohol.\n\nLa norma real: lo que tengas delante.',
+          opts: [
+            { label: 'Temperatura de servicio', id: 'temperature' },
+            { label: 'Variedades',              id: 'varieties'   },
+          ],
+        };
+
+      /* ── Añada / origen ── */
       case 'vintage':
         return {
-          text: 'Los botellines EQCLYPSE son vinos jóvenes, pensados para beber en el año. Sin crianza larga, sin años de espera.\n\nFrescura inmediata. Frío y listo.',
+          text: 'EQCLYPSE son vinos jóvenes de uva tempranillo, pensados para beber en el año.\n\nSin crianza larga, sin años de espera, sin complicarte la vida con añadas. Frescura inmediata. Abre, enfría y disfruta.',
           opts: [
             { label: 'Graduación alcohólica',   id: 'alcohol'     },
             { label: 'Temperatura de servicio', id: 'temperature' },
           ],
         };
 
-      case 'contact':
+      /* ── Precios ── */
+      case 'price':
         return {
-          text: 'Puedes contactarnos en:\n\n📧 hola@eqclypse.com\n📸 @eqclypse en Instagram\n🎵 @eqclypse en TikTok\n\nPara pedidos también tenemos WhatsApp desde el carrito de la web.',
+          text: 'Precio por botellín:\n\n🍺 En bares: 2,80 €\n🍽️ En restaurantes: 3,50 €\n\nPacks (con envío incluido o a coste reducido):\n📦 Cata Nocturna — 6 botellines mixtos → 15,90 €\n📦 Urban Night — 12 botellines mixtos → 33,00 €',
           opts: [
-            { label: 'Cómo pedir', id: 'how_to_order' },
-            { label: 'Envío',      id: 'shipping'     },
+            { label: '¿Qué incluyen los packs?', id: 'packs'        },
+            { label: 'Cómo pedir',               id: 'how_to_order' },
+            { label: 'Costes de envío',           id: 'shipping'     },
           ],
         };
 
+      /* ── Packs ── */
+      case 'packs':
+        return {
+          text: 'Dos packs disponibles ahora mismo:\n\n📦 Cata Nocturna — 15,90 €\n6 botellines mixtos. El plan para cuando sois pocos y queréis probarlo todo.\n\n📦 Urban Night — 33,00 €\n12 botellines mixtos. Para la previa en condiciones, la terraza larga o el plan de última hora.\n\nTodos mixtos: tú eliges si mezclas tintos, blancos, rosados o 0.0.',
+          opts: [
+            { label: 'Precios',          id: 'price'        },
+            { label: 'Cómo pedir',       id: 'how_to_order' },
+            { label: 'Costes de envío',  id: 'shipping'     },
+          ],
+        };
+
+      /* ── Envío ── */
+      case 'shipping':
+        return {
+          text: 'Enviamos a España, Europa y a nivel internacional:\n\n🇪🇸 España — 3,50 € · 24-48 h\n🇪🇺 Europa — 15,99 € · 4-6 días laborables\n🌍 Internacional — 30,99 € · a partir de 7 días laborables desde que sale del almacén\n\nPara pedidos grandes o eventos, escríbenos directamente.',
+          opts: [
+            { label: 'Cómo pedir',        id: 'how_to_order' },
+            { label: 'Ver los packs',     id: 'packs'        },
+            { label: 'Contacto',          id: 'contact'      },
+          ],
+        };
+
+      /* ── Cómo pedir ── */
+      case 'how_to_order':
+        return {
+          text: 'Puedes pedir de dos formas:\n\n💬 WhatsApp → 666 777 888\n📧 Email → hola@eqclypse.com\n\nTambién puedes añadir al carrito desde la web y finalizar el pedido por WhatsApp o email directamente desde ahí.\n\nNos ponemos en contacto para confirmar y coordinar el pago.',
+          opts: [
+            { label: 'Ver los packs',    id: 'packs'    },
+            { label: 'Costes de envío', id: 'shipping' },
+            { label: 'Contacto',        id: 'contact'  },
+          ],
+        };
+
+      /* ── Dónde comprar (bares) ── */
+      case 'where':
+        return {
+          text: 'Puedes encontrar EQCLYPSE en bares seleccionados en cuatro ciudades:\n\n📍 Zaragoza\n→ Nola Gras (C/ Francisco de Vitoria) — Moderno y sofisticado, con ese punto divertido para cena + copa con amigas.\n→ La Clandestina (Centro) — Cocina contemporánea y carta de vinos cuidada. Para cuando toca quedar en condiciones.\n→ Ginger Fizz Bar (Costa 16) — Coctelería y sushi. Tarde-noche y planes en grupo.\n\n📍 Madrid\n→ Marieta (Paseo de la Castellana, 44) — Afterwork de los buenos. Cócteles, DJ y energía justa entre copa y fiesta.\n→ Ultramarinos Quintín (Jorge Juan, 17) — El clásico de Salamanca. Barra, cena informal bien ejecutada, sin reserva.\n→ Picalagartos Sky Bar (Gran Vía) — Rooftop céntrico con vistas. Para el plan arreglado de Madrid.\n\n📍 Valencia\n→ Café Madrid (Ciutat Vella) — Cocktail bar elegante. Histórico y reinterpretado, donde el Agua de Valencia sabe mejor.\n→ Apotheke (C/ Císcar, Ruzafa) — Speakeasy con cócteles de autor. Premium sin alboroto.\n→ Voltereta Manhattan (Centro) — Club clandestino años 20, jazz en directo y ambiente inmersivo.\n\n📍 Barcelona\n→ Feroz (Tuset) — Restaurante, coctelería y club. El plan completo: cena, DJs y ambiente joven-arreglado.\n→ Boca Grande / Boca Chica (Passatge de la Concepció) — Elegante y bien ubicado junto a Passeig de Gràcia.\n→ Gala (Eixample, Provença) — Cena + fiesta en una. Estético y animado, donde la noche continúa después de los postres.',
+          opts: [
+            { label: 'Pedir online',      id: 'how_to_order' },
+            { label: 'Ver los packs',     id: 'packs'        },
+            { label: 'Contacto',          id: 'contact'      },
+          ],
+        };
+
+      /* ── El Círculo ── */
       case 'circle':
         return {
-          text: 'El Círculo es nuestro club privado. Acceso anticipado a drops, playlists, rutas de bares y planes desbloqueables.\n\nSolo tienes que registrarte en la web. Sin costes.',
+          text: 'El Círculo es nuestro club privado. Acceso anticipado a drops, playlists, rutas de bares y planes desbloqueables.\n\nRegístrate en la web. Sin costes, sin compromisos.',
           opts: [
-            { label: 'Botellines y variedades', id: 'varieties' },
-            { label: 'Contacto',               id: 'contact'   },
+            { label: 'Ver las variedades', id: 'varieties' },
+            { label: 'Contacto',           id: 'contact'   },
           ],
         };
 
-      case 'camara_trigger':
-        return null; // se maneja por lógica propia
+      /* ── Contacto ── */
+      case 'contact':
+        return {
+          text: 'Encuéntranos aquí:\n\n📧 hola@eqclypse.com\n💬 WhatsApp: 666 777 888\n📸 Instagram: @eqclypse\n🎵 TikTok: @eqclypse\n\nPara pedidos, el WhatsApp es lo más rápido.',
+          opts: [
+            { label: 'Cómo pedir',    id: 'how_to_order' },
+            { label: 'Ver los packs', id: 'packs'        },
+          ],
+        };
 
+      /* ── Fallback ── */
       default:
         return {
-          text: 'No sé exactamente qué decirte sobre eso. Prueba una de estas opciones o escríbenos a hola@eqclypse.com.',
+          text: 'No sé exactamente qué decirte sobre eso, pero podemos ayudarte en hola@eqclypse.com o por WhatsApp al 666 777 888.',
           opts: [
-            { label: '¿Qué es EQCLYPSE?',      id: 'brand'     },
-            { label: 'Botellines y variedades', id: 'varieties' },
-            { label: 'Precios',                 id: 'price'     },
-            { label: 'Contacto',                id: 'contact'   },
+            { label: '¿Qué es EQCLYPSE?',      id: 'brand'    },
+            { label: 'Variedades de vino',      id: 'varieties'},
+            { label: 'Precios y packs',         id: 'price'    },
+            { label: 'Contacto',               id: 'contact'  },
           ],
         };
     }
   }
 
-  /* ─── Quiz ───────────────────────────────────────────────── */
+  /* ─── Quiz de acceso a La Cámara Velada ──────────────────── */
   var QUIZ = [
     {
       q      : '¿En qué país se elaboró el vino más antiguo conocido, con más de 8.000 años de historia?',
@@ -194,7 +195,7 @@
       correct: 0,
     },
     {
-      q      : '¿Cómo se llama el proceso enológico que convierte el ácido málico en ácido láctico, suavizando la acidez de los vinos?',
+      q      : '¿Cómo se llama el proceso que convierte el ácido málico en ácido láctico, suavizando la acidez de los vinos?',
       opts   : ['Fermentación maloláctica', 'Maceración carbónica', 'Crianza sur lies', 'Remontado'],
       correct: 0,
     },
@@ -209,44 +210,51 @@
       correct: 0,
     },
     {
-      q      : '¿Quién demostró científicamente en el siglo XIX que la fermentación alcohólica es causada por las levaduras?',
+      q      : '¿Quién demostró científicamente que la fermentación alcohólica es causada por las levaduras?',
       opts   : ['Louis Pasteur', 'Antoine Lavoisier', 'Alexander Fleming', 'Justus von Liebig'],
       correct: 0,
     },
   ];
 
-  /* ─── NLP keywords → intent id ───────────────────────────── */
+  /* ─── NLP (texto libre) ───────────────────────────────────── */
   var NLP = [
-    { words: ['hola', 'hey', 'buenas', 'saludos'],                       id: 'greeting'      },
-    { words: ['cámara', 'camara', 'zona secreta', 'acceso oculto',
-              'zona vip', 'sección exclusiva', 'zona exclusiva'],         id: 'camara_trigger'},
-    { words: ['0.0', 'sin alcohol', 'cero alcohol', 'dealcoholizado',
-              'conducir', 'semidulce'],                                   id: 'zero'          },
-    { words: ['variedades', 'qué vinos', 'tinto', 'blanco', 'rosado',
-              'botellines disponibles', 'referencias'],                   id: 'varieties'     },
-    { words: ['graduación', 'cuántos grados', 'grado alcohólico',
-              'cuánto alcohol tiene'],                                    id: 'alcohol'       },
-    { words: ['temperatura', 'cómo servir', 'nevera', 'cuánto enfriar',
-              'temperatura de servicio'],                                 id: 'temperature'   },
-    { words: ['maridaje', 'con qué', 'combinar', 'queso', 'jamón',
-              'marisco', 'pescado', 'aperitivo', 'tapas'],                id: 'pairing'       },
-    { words: ['añada', 'cosecha', 'de qué año', 'crianza', 'reserva'],   id: 'vintage'       },
-    { words: ['precio', 'cuánto cuesta', 'cuánto vale', 'qué precio',
-              'cuánto es', 'tarifa', 'precios'],                          id: 'price'         },
-    { words: ['pack', 'packs', 'lote', 'urban night', 'golden hour'],    id: 'packs'         },
-    { words: ['cuánto tarda', 'tiempo de entrega', 'plazo',
-              'cuántos días tarda', 'cuándo llega'],                      id: 'delivery'      },
-    { words: ['envío', 'enviáis', 'gastos de envío', 'portes',
-              'dónde enviáis'],                                           id: 'shipping'      },
-    { words: ['cómo pido', 'cómo comprar', 'hacer pedido', 'whatsapp',
-              'carrito', 'quiero comprar', 'quiero pedir'],               id: 'how_to_order'  },
-    { words: ['contacto', 'instagram', 'tiktok', 'email de contacto',
-              'escribiros'],                                              id: 'contact'       },
-    { words: ['el círculo', 'círculo', 'newsletter', 'registrarme',
-              'drops', 'comunidad'],                                      id: 'circle'        },
-    { words: ['qué es eqclypse', 'vuestra historia', 'la marca',
-              'sobre eqclypse', 'quiénes sois', 'de qué va'],             id: 'brand'         },
-    { words: ['gracias', 'muchas gracias', 'genial', 'perfecto', 'guay'],id: 'thanks'        },
+    { words: ['hola','hey','buenas','saludos','good morning','hi'],               id: 'greeting'      },
+    { words: ['cámara','camara','zona secreta','acceso oculto','zona vip',
+              'zona exclusiva','lo que no se ve','algo escondido'],                id: 'camara_trigger'},
+    { words: ['0.0','sin alcohol','cero alcohol','dealcoholizado',
+              'conducir','semidulce','sin alcoholemia'],                           id: 'zero'          },
+    { words: ['variedades','qué vinos','tinto','blanco','rosado',
+              'referencias','tipos de vino','botellines disponibles'],             id: 'varieties'     },
+    { words: ['graduación','cuántos grados','grado alcohólico',
+              'cuánto alcohol tiene','abv','porcentaje'],                          id: 'alcohol'       },
+    { words: ['temperatura','cómo servir','nevera','cuánto enfriar',
+              'temperatura de servicio','cómo se sirve'],                          id: 'temperature'   },
+    { words: ['maridaje','con qué','combinar','queso','jamón',
+              'marisco','pescado','aperitivo','tapas','pizza','sushi'],             id: 'pairing'       },
+    { words: ['añada','cosecha','de qué año','crianza','reserva',
+              'tempranillo','uva','origen','dónde se hace'],                       id: 'vintage'       },
+    { words: ['precio','cuánto cuesta','cuánto vale','qué precio',
+              'cuánto es','tarifa','precios','cuánto sale'],                       id: 'price'         },
+    { words: ['pack','packs','cata nocturna','urban night','lote',
+              'caja','surtido'],                                                   id: 'packs'         },
+    { words: ['cuánto tarda','tiempo de entrega','plazo',
+              'cuántos días tarda','cuándo llega','rapidez'],                      id: 'shipping'      },
+    { words: ['envío','enviáis','gastos de envío','portes',
+              'dónde enviáis','envíos','mando a'],                                 id: 'shipping'      },
+    { words: ['cómo pido','cómo comprar','hacer pedido','whatsapp',
+              'carrito','quiero comprar','quiero pedir','número de teléfono'],     id: 'how_to_order'  },
+    { words: ['dónde comprar','en qué bares','puntos de venta',
+              'dónde se vende','dónde encontrar','qué bares','dónde está',
+              'zaragoza','madrid','barcelona','valencia','bar','restaurante'],      id: 'where'         },
+    { words: ['contacto','instagram','tiktok','email de contacto',
+              'escribiros','teléfono','número'],                                   id: 'contact'       },
+    { words: ['el círculo','círculo','newsletter','registrarme',
+              'drops','comunidad','club'],                                         id: 'circle'        },
+    { words: ['qué es eqclypse','vuestra historia','la marca',
+              'sobre eqclypse','quiénes sois','de qué va','el nombre',
+              'por qué eclipse','qué significa'],                                  id: 'brand'         },
+    { words: ['gracias','muchas gracias','genial','perfecto','guay',
+              'ok gracias','thank you'],                                           id: 'thanks'        },
   ];
 
   function normalize(str) {
@@ -262,8 +270,8 @@
       for (var j = 0; j < rule.words.length; j++) {
         var kw = normalize(rule.words[j]);
         var hit = kw.indexOf(' ') !== -1
-          ? norm.indexOf(kw) !== -1                                    // frase → substring
-          : (' ' + norm + ' ').indexOf(' ' + kw + ' ') !== -1;        // palabra → boundary
+          ? norm.indexOf(kw) !== -1
+          : (' ' + norm + ' ').indexOf(' ' + kw + ' ') !== -1;
         if (hit) return rule.id;
       }
     }
@@ -281,9 +289,10 @@
   var $close  = document.getElementById('eqChatClose');
   var $camara = document.getElementById('camaraVelada');
 
-  /* ─── Mensajes ───────────────────────────────────────────── */
+  /* ─── Helpers de mensajes ────────────────────────────────── */
   function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
       .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
@@ -295,16 +304,16 @@
     $msgs.scrollTop = $msgs.scrollHeight;
   }
 
-  function after(fn, ms) { setTimeout(fn, ms || DELAY); }
+  function after(fn, ms) { setTimeout(fn, ms !== undefined ? ms : DELAY); }
 
   /* ─── Opciones ───────────────────────────────────────────── */
   function setOpts(defs) {
     $opts.innerHTML = '';
     if (!defs || !defs.length) return;
     defs.forEach(function (def) {
-      var label = def.label || def;
-      var intentId = def.id || null;
-      var cb = def.fn || null;
+      var label    = def.label || def;
+      var intentId = def.id   || null;
+      var cb       = def.fn   || null;
 
       var btn = document.createElement('button');
       btn.type = 'button';
@@ -313,7 +322,7 @@
       btn.addEventListener('click', function () {
         addMsg(label, 'user');
         $opts.innerHTML = '';
-        if (cb) { cb(); return; }
+        if (cb)       { cb();             return; }
         if (intentId) { dispatch(intentId); return; }
         handleText(label);
       });
@@ -324,17 +333,19 @@
   /* ─── Despacho de intención ──────────────────────────────── */
   function dispatch(id) {
     if (id === 'camara_trigger') { camaraFlow(); return; }
+
     if (id === 'thanks') {
       after(function () {
         addMsg('De nada 🙂 ¡Que disfrutes el botellín!', 'bot');
         setOpts([
-          { label: 'Botellines y variedades', id: 'varieties' },
-          { label: 'Packs',                   id: 'packs'     },
-          { label: 'Contacto',                id: 'contact'   },
+          { label: 'Ver los packs',      id: 'packs'    },
+          { label: 'Dónde comprar',      id: 'where'    },
+          { label: 'Contacto',           id: 'contact'  },
         ]);
       });
       return;
     }
+
     var r = getResponse(id);
     if (!r) { dispatch('fallback'); return; }
     after(function () {
@@ -343,16 +354,14 @@
     });
   }
 
-  /* ─── Flujo Cámara Velada ────────────────────────────────── */
-  var $camaraSect = $camara;
-
+  /* ─── Cámara Velada ──────────────────────────────────────── */
   function camaraFlow() {
     if (S.cameraUnlocked) {
       after(function () {
         addMsg('La Cámara Velada ya está desbloqueada para ti. Desplázate hacia abajo.', 'bot');
         setOpts([
-          { label: 'Ir a La Cámara Velada', fn: function () { scrollToCamara(); } },
-          { label: 'Botellines y variedades', id: 'varieties' },
+          { label: '↓ Ir a La Cámara Velada', fn: function () { scrollToCamara(); } },
+          { label: 'Ver los packs',            id: 'packs' },
         ]);
         setTimeout(scrollToCamara, DELAY + 500);
       });
@@ -375,9 +384,9 @@
     after(function () {
       addMsg('Sin problema. Aquí estamos cuando estés lista.', 'bot');
       setOpts([
-        { label: '¿Qué es EQCLYPSE?',      id: 'brand'    },
-        { label: 'Botellines y variedades', id: 'varieties' },
-        { label: 'Packs',                   id: 'packs'     },
+        { label: '¿Qué es EQCLYPSE?', id: 'brand'    },
+        { label: 'Ver las variedades', id: 'varieties' },
+        { label: 'Ver los packs',      id: 'packs'     },
       ]);
     });
   }
@@ -385,21 +394,21 @@
   function unlockCamara() {
     S.cameraUnlocked = true;
     localStorage.setItem(STORAGE_KEY, '1');
-    if ($camaraSect) {
-      $camaraSect.classList.add('is-visible');
-      $camaraSect.removeAttribute('aria-hidden');
+    if ($camara) {
+      $camara.classList.add('is-visible');
+      $camara.removeAttribute('aria-hidden');
     }
     $chat.classList.add('is-camara');
   }
 
   function scrollToCamara() {
-    if ($camaraSect) $camaraSect.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if ($camara) $camara.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function initCamara() {
-    if (S.cameraUnlocked && $camaraSect) {
-      $camaraSect.classList.add('is-visible');
-      $camaraSect.removeAttribute('aria-hidden');
+    if (S.cameraUnlocked && $camara) {
+      $camara.classList.add('is-visible');
+      $camara.removeAttribute('aria-hidden');
       $chat.classList.add('is-camara');
     }
   }
@@ -465,8 +474,7 @@
         after(function () {
           addMsg('Desplázate hacia abajo para ver lo que no está en ningún otro sitio.', 'bot');
           setOpts([
-            { label: 'Ir a La Cámara Velada', fn: function () { scrollToCamara(); } },
-            { label: 'Botellines y variedades', id: 'varieties' },
+            { label: '↓ Ir a La Cámara Velada', fn: function () { scrollToCamara(); } },
           ]);
           setTimeout(scrollToCamara, 2200);
         }, 1200);
@@ -487,25 +495,19 @@
 
   /* ─── Texto libre ────────────────────────────────────────── */
   function handleText(input) {
-    // Quiz activo → pedir que use botones
     if (S.quizActive) {
       addMsg(input, 'user');
-      after(function () {
-        addMsg('Usa los botones de opción para responder.', 'bot');
-      });
+      after(function () { addMsg('Usa los botones de opción para responder.', 'bot'); });
       return;
     }
-    // Esperando confirmación quiz
     if (S.awaitQuiz) {
       addMsg(input, 'user');
       $opts.innerHTML = '';
-      var n = normalize(input);
-      var yes = /si|sí|quiero|dale|claro|va(le)?|ok|anda/.test(n);
+      var yes = /si|sí|quiero|dale|claro|va(le)?|ok|anda|venga/.test(normalize(input));
       S.awaitQuiz = false;
       if (yes) { startQuiz(); } else { declineQuiz(); }
       return;
     }
-    // NLP normal
     addMsg(input, 'user');
     $opts.innerHTML = '';
     var id = matchNLP(input);
@@ -540,14 +542,14 @@
       addMsg(
         S.cameraUnlocked
           ? 'La Cámara Velada está desbloqueada. ¿Qué necesitas?'
-          : '¡Hola! Soy el asistente de EQCLYPSE. Pregúntame lo que quieras.',
+          : '¡Hola! Soy el asistente de EQCLYPSE. ¿En qué puedo ayudarte?',
         'bot'
       );
       setOpts([
-        { label: '¿Qué es EQCLYPSE?',      id: 'brand'          },
-        { label: 'Botellines y variedades', id: 'varieties'      },
-        { label: 'Precios y packs',         id: 'price'          },
-        { label: 'Envío y entrega',         id: 'shipping'       },
+        { label: '¿Qué es EQCLYPSE?',      id: 'brand'    },
+        { label: 'Variedades y precios',    id: 'price'    },
+        { label: 'Dónde comprar',           id: 'where'    },
+        { label: 'Envío y pedidos',         id: 'shipping' },
         cameraOpt,
       ]);
     }, 300);
@@ -560,9 +562,9 @@
   $close.addEventListener('click', closeChat);
   $form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var v = $input.value;
+    var v = $input.value.trim();
     $input.value = '';
-    if (v.trim()) handleText(v.trim());
+    if (v) handleText(v);
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && S.open) closeChat();
