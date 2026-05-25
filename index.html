@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EQCLYPSE — Vino en botellín de 33 cl</title>
+    <meta
+      name="description"
+      content="EQCLYPSE es vino joven en botellín de 33 cl. Frío, fácil y sin protocolo. Con o sin alcohol."
+    />
+    <meta property="og:title" content="EQCLYPSE — Vino en botellín de 33 cl" />
+    <meta
+      property="og:description"
+      content="Botellines de vino de 33 cl. Fríos, fáciles y sin protocolo. Con o sin alcohol, según lo que pida tu noche."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/brand-board.png" />
+    <meta name="theme-color" content="#171714" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Botellines EQCLYPSE",
+        "itemListElement": [
+          {
+            "@type": "Product",
+            "position": 1,
+            "name": "EQCLYPSE Tinto",
+            "image": "assets/botella-tinto.png",
+            "description": "Vino tinto joven en botellín de 33 cl.",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.80",
+              "priceCurrency": "EUR",
+              "availability": "https://schema.org/InStock"
+            }
+          },
+          {
+            "@type": "Product",
+            "position": 2,
+            "name": "EQCLYPSE Blanco",
+            "image": "assets/botella-blanco.png",
+            "description": "Vino blanco en botellín de 33 cl.",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.80",
+              "priceCurrency": "EUR",
+              "availability": "https://schema.org/InStock"
+            }
+          },
+          {
+            "@type": "Product",
+            "position": 3,
+            "name": "EQCLYPSE Rosado",
+            "image": "assets/botella-rosado.png",
+            "description": "Vino rosado en botellín de 33 cl.",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.80",
+              "priceCurrency": "EUR",
+              "availability": "https://schema.org/InStock"
+            }
+          },
+          {
+            "@type": "Product",
+            "position": 4,
+            "name": "EQCLYPSE Blanco Semidulce 0.0",
+            "image": "assets/botella-blanco-00.png",
+            "description": "Vino blanco semidulce sin alcohol en botellín de 33 cl.",
+            "offers": {
+              "@type": "Offer",
+              "price": "2.80",
+              "priceCurrency": "EUR",
+              "availability": "https://schema.org/InStock"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <div class="age-gate" id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageTitle">
+      <div class="age-gate__panel" role="document">
+        <p class="eyebrow">Consumo responsable</p>
+        <h1 id="ageTitle">EQCLYPSE es para mayores de 18 años.</h1>
+        <p>
+          Esta web presenta bebidas con alcohol y alternativas 0.0. Entra solo si eres mayor
+          de edad y consume con responsabilidad.
+        </p>
+        <div class="age-gate__actions">
+          <button class="button button--dark" type="button" id="ageAccept">Tengo más de 18</button>
+          <button class="button button--ghost" type="button" id="ageExit">Salir</button>
+        </div>
+      </div>
+    </div>
+
+    <header class="site-header" data-header>
+      <a class="brand-mark" href="#inicio" aria-label="EQCLYPSE inicio">
+        <img src="assets/logo-eqclypse.png" alt="Logo de EQCLYPSE con eclipse dorado" />
+        <span>EQCLYPSE</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#botellines">Botellines</a>
+        <a href="#packs">Packs</a>
+        <a href="#circulo">El Círculo</a>
+        <a href="#manifiesto">Manifiesto</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button cart-trigger" type="button" aria-label="Abrir carrito" data-open-cart>
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M6.2 6h15l-1.8 8.2a2 2 0 0 1-2 1.6H9a2 2 0 0 1-2-1.7L5.5 3.8H3" />
+              <circle cx="9.3" cy="20" r="1" />
+              <circle cx="17.3" cy="20" r="1" />
+            </svg>
+          </span>
+          <strong class="cart-count" data-cart-count>0</strong>
+        </button>
+        <button class="icon-button menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <nav class="mobile-nav" aria-label="Navegación móvil" data-mobile-nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#botellines">Botellines</a>
+        <a href="#packs">Packs</a>
+        <a href="#circulo">El Círculo</a>
+        <a href="#manifiesto">Manifiesto</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero section" id="inicio">
+        <div class="hero__copy reveal">
+          <p class="eyebrow">DEEP. ELEGANT. TIMELESS.</p>
+          <h1>EQCLYPSE</h1>
+          <p class="hero__lead">No tienes que saber de vino para tener buen gusto.</p>
+          <p class="hero__text">
+            Botellines de vino de 33 cl. Fríos, fáciles y sin protocolo. Con o sin alcohol,
+            según lo que pida tu noche.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--dark" href="#botellines">Comprar botellines</a>
+            <a class="button button--light" href="#ritual">Descubrir el ritual</a>
+          </div>
+        </div>
+
+        <div class="hero__visual reveal" aria-label="Botellines EQCLYPSE sobre fondo editorial">
+          <div class="orbit-badge">33 cl</div>
+          <img class="hero-bottle hero-bottle--left" src="assets/botella-blanco.png" alt="Botellín EQCLYPSE Blanco de 33 cl" />
+          <img class="hero-bottle hero-bottle--center" src="assets/botella-tinto.png" alt="Botellín EQCLYPSE Tinto de 33 cl" />
+          <img class="hero-bottle hero-bottle--right" src="assets/botella-rosado.png" alt="Botellín EQCLYPSE Rosado de 33 cl" />
+        </div>
+      </section>
+
+      <section class="section intro-band" id="ritual">
+        <div class="section-heading reveal">
+          <p class="eyebrow">El vino que cabe en tu noche</p>
+          <h2>Formato cerveza. Alma vino.</h2>
+          <p>
+            EQCLYPSE saca el vino de la mesa formal y lo lleva a la noche joven: 33 cl,
+            cristal, frío y listo para abrir.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card reveal">
+            <span>01</span>
+            <h3>33 cl</h3>
+            <p>Una medida justa, sin abrir una botella entera.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span>02</span>
+            <h3>Frío</h3>
+            <p>Pensado para beber entre 8 y 12 grados.</p>
+          </article>
+          <article class="feature-card reveal">
+            <span>03</span>
+            <h3>Sin protocolo</h3>
+            <p>No necesitas saber de vino para disfrutarlo.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section catalog-section" id="botellines">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Botellines</p>
+          <h2>No es vino para entender. Es vino para abrir.</h2>
+          <p>
+            Frío, fácil, distinto. Elige unidad, pack o mixto y desbloquea un plan.
+          </p>
+        </div>
+        <div class="product-grid" id="productGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="section packs-band" id="packs">
+        <div class="editorial-split">
+          <div class="editorial-split__image reveal">
+            <img src="assets/brand-board.png" alt="Identidad visual EQCLYPSE con logo, botellines y paleta dorada" loading="lazy" />
+          </div>
+          <div class="editorial-split__copy reveal">
+            <p class="eyebrow">Packs por momento</p>
+            <h2>No has comprado vino. Has desbloqueado un plan.</h2>
+            <p>
+              Una botella. Una hora. Sin protocolo. Packs mixtos para previa, terraza,
+              golden hour, cena improvisada y noche larga.
+            </p>
+            <a class="text-link" href="#botellines">Ver packs disponibles</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section drops-section" id="drops">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Drops</p>
+          <h2>Drops que no vuelven igual.</h2>
+          <p>
+            El eclipse es un evento. EQCLYPSE también. Ediciones limitadas, packs por
+            momento y acceso anticipado para El Círculo.
+          </p>
+        </div>
+        <div class="drop-grid">
+          <article class="drop-card reveal">
+            <p>Drop Luna</p>
+            <h3>Botellines para noche lenta.</h3>
+            <span>Próximamente</span>
+          </article>
+          <article class="drop-card reveal">
+            <p>Drop Sol</p>
+            <h3>Hora dorada, frío perfecto.</h3>
+            <span>Acceso anticipado</span>
+          </article>
+          <article class="drop-card reveal">
+            <p>Drop Ciudad</p>
+            <h3>Rutas, barras y afterwork.</h3>
+            <span>Edición limitada</span>
+          </article>
+          <article class="drop-card reveal">
+            <p>Drop After Dark</p>
+            <h3>Cuando la noche pide más.</h3>
+            <span>Próximamente</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="section circle-section" id="circulo">
+        <div class="circle-panel reveal">
+          <div>
+            <p class="eyebrow">El Círculo</p>
+            <h2>No es una newsletter. Es acceso.</h2>
+            <p>
+              Regístrate para recibir drops antes que nadie, playlists, rutas de bares,
+              catas modernas y planes desbloqueables por QR.
+            </p>
+          </div>
+          <form class="circle-form" id="circleForm">
+            <label>
+              Nombre
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+            <label>
+              Ciudad
+              <input type="text" name="city" autocomplete="address-level2" required />
+            </label>
+            <label>
+              Preferencia
+              <select name="preference" required>
+                <option value="">Elige una opción</option>
+                <option>Tinto</option>
+                <option>Blanco</option>
+                <option>Rosado</option>
+                <option>0.0</option>
+                <option>Quiero probar todo</option>
+              </select>
+            </label>
+            <button class="button button--gold" type="submit">Entrar en El Círculo</button>
+            <p class="form-status" id="circleStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="manifesto section" id="manifiesto">
+        <div class="manifesto__inner reveal">
+          <p class="eyebrow">Manifiesto</p>
+          <h2>Hubo un tiempo en que beber vino era un examen.</h2>
+          <div class="manifesto__text">
+            <p>Saber elegir, saber pronunciar, saber callar.</p>
+            <p>Ese tiempo terminó.</p>
+            <p>
+              EQCLYPSE no te pide que estudies. Te pide que abras el botellín, que lo
+              bebas frío y que lo compartas con quien te apetezca.
+            </p>
+            <p>Una botella. Una hora. Sin protocolo.</p>
+            <p>No es vino para entender. Es vino para abrir.</p>
+            <p><strong>DEEP. ELEGANT. TIMELESS.</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section moments-section" id="momentos">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Momentos</p>
+          <h2>Con o sin alcohol, según lo que pida tu noche.</h2>
+        </div>
+        <div class="moment-grid">
+          <article class="moment-card reveal">
+            <span>Previa</span>
+            <h3>Pack Urban Night</h3>
+            <p>Doce botellines, cero protocolo.</p>
+          </article>
+          <article class="moment-card reveal">
+            <span>Terraza</span>
+            <h3>EQCLYPSE Blanco</h3>
+            <p>Frío, limpio y ligero.</p>
+          </article>
+          <article class="moment-card reveal">
+            <span>Golden hour</span>
+            <h3>EQCLYPSE Rosado</h3>
+            <p>La hora dorada en formato botellín.</p>
+          </article>
+          <article class="moment-card reveal">
+            <span>Cena improvisada</span>
+            <h3>Pack Cata Nocturna</h3>
+            <p>Abre, enfría y elige tu momento.</p>
+          </article>
+          <article class="moment-card reveal">
+            <span>Afterwork</span>
+            <h3>EQCLYPSE Blanco 0.0</h3>
+            <p>Todo el gesto. Cero alcohol.</p>
+          </article>
+          <article class="moment-card reveal">
+            <span>Noche larga</span>
+            <h3>EQCLYPSE Tinto</h3>
+            <p>Oscuro, directo y fácil de abrir.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section locations-section" id="contacto">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Ruta</p>
+          <h2>Encuentra EQCLYPSE</h2>
+          <p>Primeros puntos de venta próximamente.</p>
+        </div>
+        <div class="route-list">
+          <article class="route-item reveal">
+            <h3>Zaragoza</h3>
+            <p>El Tubo / Magdalena / Universidad</p>
+          </article>
+          <article class="route-item reveal">
+            <h3>Madrid</h3>
+            <p>Malasaña / Chamberí / La Latina</p>
+          </article>
+          <article class="route-item reveal">
+            <h3>Barcelona</h3>
+            <p>Gràcia / Born / Poblenou</p>
+          </article>
+          <article class="route-item reveal">
+            <h3>Valencia</h3>
+            <p>Ruzafa / El Carmen</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <img src="assets/logo-eqclypse.png" alt="Logo de EQCLYPSE" loading="lazy" />
+        <p>DEEP. ELEGANT. TIMELESS.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Enlaces de pie de página">
+        <a href="#manifiesto">Manifiesto</a>
+        <a href="#botellines">Botellines</a>
+        <a href="#circulo">El Círculo</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:hola@eqclypse.com">hola@eqclypse.com</a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://www.tiktok.com/" target="_blank" rel="noreferrer">TikTok</a>
+      </div>
+      <p class="responsible">Consume con responsabilidad. Producto para mayores de 18 años.</p>
+      <nav class="legal-links" aria-label="Enlaces legales">
+        <button type="button" data-legal="aviso">Aviso legal</button>
+        <button type="button" data-legal="privacidad">Privacidad</button>
+        <button type="button" data-legal="cookies">Cookies</button>
+        <button type="button" data-legal="compra">Condiciones de compra</button>
+        <button type="button" data-legal="responsable">Consumo responsable</button>
+      </nav>
+    </footer>
+
+    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-labelledby="cartTitle">
+      <div class="cart-drawer__overlay" data-close-cart></div>
+      <div class="cart-drawer__panel" role="dialog" aria-modal="true">
+        <header class="cart-drawer__header">
+          <div>
+            <p class="eyebrow">Pedido</p>
+            <h2 id="cartTitle">Tu carrito</h2>
+          </div>
+          <button class="icon-button" type="button" aria-label="Cerrar carrito" data-close-cart>
+            <span aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </span>
+          </button>
+        </header>
+        <div class="cart-items" id="cartItems"></div>
+        <p class="cart-note">Pedido mínimo recomendado: pack de 6 botellines</p>
+        <div class="cart-summary">
+          <span>Subtotal</span>
+          <strong id="cartSubtotal">0,00 €</strong>
+        </div>
+        <div class="cart-actions">
+          <button class="button button--dark" type="button" id="whatsappCheckout">
+            Finalizar pedido por WhatsApp
+          </button>
+          <button class="button button--light" type="button" id="emailCheckout">
+            Enviar pedido por email
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="legal-modal" id="legalModal" aria-hidden="true">
+      <div class="legal-modal__overlay" data-close-legal></div>
+      <section class="legal-modal__panel" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+        <button class="icon-button legal-modal__close" type="button" aria-label="Cerrar ventana legal" data-close-legal>
+          <span aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </span>
+        </button>
+        <p class="eyebrow">Legal</p>
+        <h2 id="legalTitle"></h2>
+        <div class="legal-modal__body" id="legalBody"></div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
