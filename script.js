@@ -134,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cacheElements();
   setupAgeGate();
   setupHeader();
+  setupHeroTagline();
   renderProducts();
   renderCart();
   setupCart();
@@ -465,6 +466,33 @@ function closeLegalModal() {
   if (!els.ageGate.classList.contains("is-open") && !els.cartDrawer.classList.contains("is-open")) {
     els.body.classList.remove("is-locked");
   }
+}
+
+function setupHeroTagline() {
+  const el = document.querySelector("#heroTagline");
+  if (!el) return;
+
+  const lines = [
+    "Para el miércoles.",
+    "Para el jueves.",
+    "Para cuando toca.",
+    "Para tu terraza.",
+    "Para previa en casa.",
+    "Para golden hour.",
+    "Para la noche larga.",
+  ];
+
+  let i = 0;
+  setInterval(() => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(8px)";
+    setTimeout(() => {
+      i = (i + 1) % lines.length;
+      el.textContent = lines[i];
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    }, 300);
+  }, 2800);
 }
 
 function setupRevealObserver() {
