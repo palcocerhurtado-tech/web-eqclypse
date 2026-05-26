@@ -2275,6 +2275,12 @@ h3 {
   color: var(--gold);
 }
 
+.eq-opt--main {
+  padding: 7px 14px;
+  border-color: rgba(255, 215, 91, 0.35);
+  font-size: 0.82rem;
+}
+
 .eq-chat__form {
   display: grid;
   grid-template-columns: 1fr auto;
