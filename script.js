@@ -73,6 +73,47 @@ const PRODUCTS = [
     badges: ["Pack"],
     options: [{ id: "pack", label: "Pack 12 mixto", price: 33 }],
   },
+  /* ─── Cámara Velada — artículos exclusivos ─── */
+  {
+    id: "camara-hielera",
+    name: "Hielera EQCLYPSE",
+    type: "Cámara Velada · Edición limitada",
+    description: "Acero inoxidable mate dorado. Logo eclipse en relieve. La temperatura perfecta para tu botellín.",
+    image: "assets/camara-hielera.jpg",
+    alt: "Hielera dorada EQCLYPSE Ice Bucket Set edición limitada",
+    badges: ["Cámara Velada"],
+    options: [{ id: "unidad", label: "Unidad", price: 23.54 }],
+  },
+  {
+    id: "camara-posavasos",
+    name: "Pack de Posavasos Premium",
+    type: "Cámara Velada · Edición limitada",
+    description: "Eclipse grabado. Negro, gris y crema. Para los que saben dejar huella.",
+    image: "assets/camara-posavasos.jpg",
+    alt: "Pack de posavasos premium EQCLYPSE edición limitada",
+    badges: ["Cámara Velada"],
+    options: [{ id: "pack", label: "Pack posavasos", price: 15.89 }],
+  },
+  {
+    id: "camara-copas",
+    name: "Pack de 6 Copas Premium",
+    type: "Cámara Velada · Edición limitada",
+    description: "Cristal ahumado. Logo grabado en oro. Beber con estilo, sin protocolo.",
+    image: "assets/camara-copas.jpg",
+    alt: "Pack de 6 copas premium EQCLYPSE edición limitada",
+    badges: ["Cámara Velada"],
+    options: [{ id: "pack", label: "Pack 6 copas", price: 55 }],
+  },
+  {
+    id: "camara-pack-intimo",
+    name: "Pack Íntimo EQCLYPSE",
+    type: "Cámara Velada · Pack exclusivo",
+    description: "Copa + hielera + 6 botellines seleccionados. Solo aquí. Solo ahora.",
+    image: "assets/camara-pack-intimo.jpg",
+    alt: "Pack Íntimo EQCLYPSE con copa, hielera y 6 botellines",
+    badges: ["Cámara Velada", "Pack"],
+    options: [{ id: "pack", label: "Pack íntimo completo", price: 43 }],
+  },
 ];
 
 const LEGAL_CONTENT = {
@@ -291,6 +332,17 @@ function renderProducts() {
 function setupCart() {
   document.querySelectorAll("[data-open-cart]").forEach((button) => {
     button.addEventListener("click", openCart);
+  });
+
+  // Cámara Velada — add-to-cart buttons
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-camara-add]");
+    if (!button) return;
+    const product = findProduct(button.dataset.camaraAdd);
+    if (!product) return;
+    const optionId = product.options[0].id;
+    addToCart(product, optionId, 1);
+    openCart();
   });
 
   document.querySelectorAll("[data-close-cart]").forEach((button) => {

@@ -1957,6 +1957,29 @@ h3 {
   font-family: var(--serif);
 }
 
+.camara-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 400ms ease;
+}
+
+.camara-card:hover .camara-card__media img {
+  transform: scale(1.03);
+}
+
+.camara-card__actions {
+  padding: 0 20px 20px;
+}
+
+.camara-card__actions .button {
+  width: 100%;
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
 .camara-card__body {
   padding: 22px 20px;
 }
