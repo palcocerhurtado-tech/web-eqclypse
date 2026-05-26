@@ -1107,7 +1107,6 @@ h3 {
   height: auto;
   object-fit: contain;
   object-position: left center;
-  filter: brightness(0); /* render on gold bg as deep black silhouette */
 }
 
 .history-brand-seal {
@@ -1364,7 +1363,6 @@ h3 {
   height: auto;
   object-fit: contain;
   object-position: left center;
-  filter: brightness(0) invert(1); /* white silhouette on dark footer */
 }
 
 .footer-origin-text {
