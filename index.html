@@ -170,6 +170,7 @@
         <a href="#packs">Packs</a>
         <a href="#circulo">El Círculo</a>
         <a href="#historia">La historia</a>
+        <a href="#blog">Blog</a>
         <a href="#contacto">Contacto</a>
       </nav>
 
@@ -199,6 +200,7 @@
         <a href="#packs">Packs</a>
         <a href="#circulo">El Círculo</a>
         <a href="#historia">La historia</a>
+        <a href="#blog">Blog</a>
         <a href="#contacto">Contacto</a>
       </nav>
     </header>
@@ -448,6 +450,53 @@
       </section>
     </main>
 
+    <!-- ─── Blog ─── -->
+    <section class="blog-section section" id="blog">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Cultura EQCLYPSE</p>
+        <h2>Del viñedo a la noche.</h2>
+      </div>
+      <div class="blog-grid">
+
+        <article class="blog-card reveal">
+          <a href="blog/estilo-de-vida.html" class="blog-card__media" aria-label="Leer: La hora de los 33 cl">
+            <span class="blog-card__category">Estilo de vida</span>
+          </a>
+          <div class="blog-card__body">
+            <p class="blog-card__meta">Lifestyle · 5 min</p>
+            <h3><a href="blog/estilo-de-vida.html">La hora de los 33 cl</a></h3>
+            <p>Cómo EQCLYPSE cambió nuestra manera de beber vino — y por qué el formato importa más de lo que crees.</p>
+            <a class="blog-card__link" href="blog/estilo-de-vida.html">Leer artículo →</a>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <a href="blog/fabricacion.html" class="blog-card__media blog-card__media--dark" aria-label="Leer: De la cepa a la noche">
+            <span class="blog-card__category">Elaboración</span>
+          </a>
+          <div class="blog-card__body">
+            <p class="blog-card__meta">Proceso · 7 min</p>
+            <h3><a href="blog/fabricacion.html">De la cepa a la noche</a></h3>
+            <p>El proceso detrás de cada botellín EQCLYPSE: desde la uva en Campo de Borja hasta tu mano.</p>
+            <a class="blog-card__link" href="blog/fabricacion.html">Leer artículo →</a>
+          </div>
+        </article>
+
+        <article class="blog-card reveal">
+          <a href="blog/campo-de-borja.html" class="blog-card__media blog-card__media--gold" aria-label="Leer: Campo de Borja">
+            <span class="blog-card__category">Territorio</span>
+          </a>
+          <div class="blog-card__body">
+            <p class="blog-card__meta">Origen · 8 min</p>
+            <h3><a href="blog/campo-de-borja.html">Campo de Borja: el territorio que nadie te había contado</a></h3>
+            <p>La Denominación de Origen, la Garnacha y la historia de una bodega que lleva décadas mirando al Moncayo.</p>
+            <a class="blog-card__link" href="blog/campo-de-borja.html">Leer artículo →</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
     <footer class="site-footer" id="contacto">
       <div class="footer-brand">
         <img src="assets/logo-eqclypse.png" alt="Logo de EQCLYPSE" loading="lazy" />
@@ -502,8 +551,18 @@
         <div class="cart-items" id="cartItems"></div>
         <p class="cart-note">Pedido mínimo recomendado: pack de 6 botellines</p>
         <div class="cart-summary">
-          <span>Subtotal</span>
-          <strong id="cartSubtotal">0,00 €</strong>
+          <div class="cart-summary__row">
+            <span>Subtotal</span>
+            <span id="cartRaw">0,00 €</span>
+          </div>
+          <div class="cart-summary__discount" id="cartDiscount" hidden>
+            <span>🔓 Cámara Velada <strong>−11%</strong></span>
+            <span id="cartDiscountAmount" class="cart-discount-amount"></span>
+          </div>
+          <div class="cart-summary__row cart-summary__total">
+            <span>Total</span>
+            <strong id="cartSubtotal">0,00 €</strong>
+          </div>
         </div>
         <div class="cart-actions">
           <button class="button button--dark" type="button" id="whatsappCheckout">

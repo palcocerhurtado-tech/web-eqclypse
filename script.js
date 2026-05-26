@@ -213,6 +213,9 @@ function cacheElements() {
   els.cartItems = document.querySelector("#cartItems");
   els.cartSubtotal = document.querySelector("#cartSubtotal");
   els.cartCount = document.querySelector("[data-cart-count]");
+  els.cartRaw = document.querySelector("#cartRaw");
+  els.cartDiscount = document.querySelector("#cartDiscount");
+  els.cartDiscountAmount = document.querySelector("#cartDiscountAmount");
   els.whatsappCheckout = document.querySelector("#whatsappCheckout");
   els.emailCheckout = document.querySelector("#emailCheckout");
   els.menuToggle = document.querySelector("[data-menu-toggle]");
@@ -422,12 +425,29 @@ function removeFromCart(key) {
   renderCart();
 }
 
+function isDiscountEligible() {
+  const camaraUnlocked = localStorage.getItem("eqclypse_camara_v1") === "1";
+  const members = readStorage("eqclypse_circle_members", []);
+  return camaraUnlocked && members.length > 0;
+}
+
 function renderCart() {
   const itemCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = getCartSubtotal();
+  const raw = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const eligible = isDiscountEligible() && state.cart.length > 0;
+  const subtotal = eligible ? raw * 0.89 : raw;
 
   els.cartCount.textContent = itemCount;
+  if (els.cartRaw) els.cartRaw.textContent = currency.format(raw);
   els.cartSubtotal.textContent = currency.format(subtotal);
+
+  if (els.cartDiscount) {
+    els.cartDiscount.hidden = !eligible;
+    if (eligible && els.cartDiscountAmount) {
+      els.cartDiscountAmount.textContent = "−" + currency.format(raw * 0.11);
+    }
+  }
+
   els.whatsappCheckout.disabled = state.cart.length === 0;
   els.emailCheckout.disabled = state.cart.length === 0;
 
@@ -477,10 +497,21 @@ function buildOrderMessage() {
     return `- ${item.quantity}x ${item.name} (${item.optionLabel}) — ${currency.format(item.price * item.quantity)}`;
   });
 
+  const raw = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const eligible = isDiscountEligible();
+
+  const summaryLines = eligible
+    ? [
+        `Subtotal bruto: ${currency.format(raw)}`,
+        `Descuento Cámara Velada −11%: −${currency.format(raw * 0.11)}`,
+        `Total con descuento: ${currency.format(raw * 0.89)}`,
+      ]
+    : [`Total: ${currency.format(raw)}`];
+
   return [
     "Hola, quiero hacer un pedido de EQCLYPSE:",
     ...lines,
-    `Subtotal: ${currency.format(getCartSubtotal())}`,
+    ...summaryLines,
     "Nombre:",
     "Ciudad:",
     "Dirección:",
@@ -618,7 +649,8 @@ function findOption(product, optionId) {
 }
 
 function getCartSubtotal() {
-  return state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const raw = state.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  return isDiscountEligible() ? raw * 0.89 : raw;
 }
 
 function persistCart() {
