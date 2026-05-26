@@ -200,11 +200,6 @@ function setupAgeGate() {
 }
 
 function setupCookieBanner() {
-  // Show on every new browser session (sessionStorage resets on tab/window close)
-  // so it behaves like the age gate: visible on every fresh visit.
-  if (sessionStorage.getItem("eqclypse_cookie_seen")) return;
-
-  sessionStorage.setItem("eqclypse_cookie_seen", "1");
   els.cookieBanner.classList.add("is-open");
   els.cookieBanner.setAttribute("aria-hidden", "false");
   window.setTimeout(() => els.cookieAccept.focus(), 120);
