@@ -426,9 +426,7 @@ function removeFromCart(key) {
 }
 
 function isDiscountEligible() {
-  const camaraUnlocked = localStorage.getItem("eqclypse_camara_v1") === "1";
-  const members = readStorage("eqclypse_circle_members", []);
-  return camaraUnlocked && members.length > 0;
+  return localStorage.getItem("eqclypse_camara_v1") === "1";
 }
 
 function renderCart() {

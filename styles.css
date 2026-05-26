@@ -1063,7 +1063,7 @@ h3 {
 .manifesto__inner {
   position: relative;
   z-index: 1;
-  width: min(980px, 100%);
+  width: min(760px, 100%);
   margin: 0 auto;
 }
 
@@ -1078,7 +1078,7 @@ h3 {
 .manifesto__text {
   display: grid;
   gap: 8px;
-  width: min(760px, 100%);
+  width: 100%;
   color: rgba(15, 14, 12, 0.7);
   font-size: clamp(1.05rem, 2vw, 1.35rem);
 }
@@ -1103,7 +1103,7 @@ h3 {
 }
 
 .history-bodega-logo {
-  width: clamp(180px, 26vw, 300px);
+  width: clamp(100px, 14vw, 180px);
   height: auto;
   object-fit: contain;
   object-position: left center;
@@ -1359,7 +1359,7 @@ h3 {
 }
 
 .footer-bodega-logo {
-  width: clamp(130px, 18vw, 240px);
+  width: clamp(90px, 11vw, 160px);
   height: auto;
   object-fit: contain;
   object-position: left center;
