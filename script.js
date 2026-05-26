@@ -95,8 +95,24 @@ const LEGAL_CONTENT = {
   cookies: {
     title: "Política de cookies",
     body: `
-      <p>Esta V1 no instala cookies de terceros. Utiliza localStorage para recordar la preferencia de cookies, el carrito y el registro local de El Círculo.</p>
-      <p>Si se añaden analítica, píxeles publicitarios o herramientas externas, esta política deberá actualizarse.</p>
+      <p><strong>Responsable del tratamiento:</strong> EQCLYPSE · hola@eqclypse.com</p>
+      <p><strong>Base legal:</strong> Art. 22.2 LSSI-CE y Reglamento (UE) 2016/679 (RGPD).</p>
+      <h3 style="margin-top:18px;margin-bottom:8px;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;">Cookies técnicas y necesarias</h3>
+      <p>No requieren consentimiento. Son imprescindibles para el funcionamiento de la web:</p>
+      <ul style="padding-left:18px;line-height:1.8;opacity:.72;">
+        <li><code>eqclypse_age_v1</code> — confirmación de mayoría de edad · sesión</li>
+        <li><code>eqclypse_cart_v1</code> — contenido del carrito · persistente</li>
+        <li><code>eqclypse_camara_v1</code> — acceso a la Cámara Velada · persistente</li>
+        <li><code>eqclypse_cookie_preference</code> — tu elección de cookies · persistente</li>
+      </ul>
+      <h3 style="margin-top:18px;margin-bottom:8px;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;">Cookies analíticas y de marketing</h3>
+      <p>En la versión actual <strong>no se instalan cookies analíticas, de publicidad ni de terceros</strong>. No se usa Google Analytics, Meta Pixel ni ningún rastreador externo.</p>
+      <h3 style="margin-top:18px;margin-bottom:8px;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;">Tus derechos (arts. 15–22 RGPD)</h3>
+      <p>Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, portabilidad y limitación del tratamiento escribiendo a <a href="mailto:hola@eqclypse.com">hola@eqclypse.com</a>. También puedes reclamar ante la <a href="https://www.aepd.es" target="_blank" rel="noreferrer">AEPD</a>.</p>
+      <div style="margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,215,91,0.12);">
+        <p style="margin-bottom:10px;opacity:.7;font-size:.85rem;">¿Quieres cambiar tu elección de cookies?</p>
+        <button type="button" id="resetCookiePreference" style="padding:10px 20px;background:transparent;border:1px solid rgba(255,215,91,0.35);color:var(--gold);font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;">Gestionar mis preferencias</button>
+      </div>
     `,
   },
   compra: {
@@ -458,6 +474,30 @@ function openLegalModal(key) {
   els.legalModal.setAttribute("aria-hidden", "false");
   els.body.classList.add("is-locked");
   window.setTimeout(() => els.legalModal.querySelector("[data-close-legal]").focus(), 80);
+
+  // "Gestionar mis preferencias" button inside cookies modal
+  var resetBtn = document.getElementById("resetCookiePreference");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", function () {
+      localStorage.removeItem("eqclypse_cookie_preference");
+      closeLegalModal();
+      window.setTimeout(function () {
+        els.cookieBanner.classList.add("is-open");
+        els.cookieBanner.setAttribute("aria-hidden", "false");
+        // Re-attach button listeners (once: true already fired, so we re-bind)
+        els.cookieAccept.addEventListener("click", function () {
+          localStorage.setItem("eqclypse_cookie_preference", "accepted");
+          els.cookieBanner.classList.remove("is-open");
+          els.cookieBanner.setAttribute("aria-hidden", "true");
+        }, { once: true });
+        els.cookieReject.addEventListener("click", function () {
+          localStorage.setItem("eqclypse_cookie_preference", "necessary");
+          els.cookieBanner.classList.remove("is-open");
+          els.cookieBanner.setAttribute("aria-hidden", "true");
+        }, { once: true });
+      }, 200);
+    }, { once: true });
+  }
 }
 
 function closeLegalModal() {

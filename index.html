@@ -104,18 +104,58 @@
       </div>
     </div>
 
-    <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Aviso de cookies" aria-hidden="true">
-      <div class="cookie-banner__copy">
-        <h2>Cookies</h2>
-        <p>
-          Usamos almacenamiento local para recordar tu carrito, tu acceso a El Círculo y
-          mejorar esta experiencia estática. Puedes aceptar o seguir navegando solo con lo
-          necesario.
+    <div class="cookie-gate" id="cookieBanner" role="dialog" aria-modal="true" aria-labelledby="cookieTitle" aria-hidden="true">
+      <div class="cookie-gate__panel">
+        <p class="eyebrow">Privacidad y cookies</p>
+        <h2 id="cookieTitle">Antes de entrar, infórmate.</h2>
+        <p class="cookie-gate__intro">
+          Esta web utiliza tecnologías de almacenamiento local de acuerdo con el
+          <strong>Reglamento General de Protección de Datos (RGPD&nbsp;2016/679)</strong>,
+          la <strong>Ley Orgánica 3/2018 de Protección de Datos (LOPDGDD)</strong> y
+          la <strong>Ley 34/2002 de Servicios de la Sociedad de la Información (LSSI-CE)</strong>.
+          A continuación te explicamos qué datos guardamos, para qué y cuáles son tus derechos.
         </p>
-      </div>
-      <div class="cookie-banner__actions">
-        <button class="button button--dark" type="button" id="cookieAccept">Aceptar cookies</button>
-        <button class="button button--light" type="button" id="cookieReject">Solo necesarias</button>
+
+        <div class="cookie-categories">
+          <div class="cookie-cat">
+            <div class="cookie-cat__header">
+              <span class="cookie-cat__name">Técnicas y necesarias</span>
+              <span class="cookie-cat__badge">Siempre activas</span>
+            </div>
+            <p>Almacenan tu confirmación de mayoría de edad, tu carrito de compra, el acceso desbloqueado a la Cámara Velada y tu preferencia de cookies. Sin ellas la web no funciona correctamente. <strong>No requieren consentimiento</strong> según el art.&nbsp;22.2 LSSI-CE.</p>
+            <ul class="cookie-list">
+              <li><code>eqclypse_age_v1</code> — verificación de mayoría de edad · sesión</li>
+              <li><code>eqclypse_cart_v1</code> — contenido del carrito · persistente</li>
+              <li><code>eqclypse_camara_v1</code> — acceso a la Cámara Velada · persistente</li>
+              <li><code>eqclypse_cookie_preference</code> — tu elección aquí · persistente</li>
+            </ul>
+          </div>
+          <div class="cookie-cat">
+            <div class="cookie-cat__header">
+              <span class="cookie-cat__name">Analíticas y de marketing</span>
+              <span class="cookie-cat__badge cookie-cat__badge--off">No activas</span>
+            </div>
+            <p>En esta versión de la web <strong>no se instalan cookies analíticas ni de seguimiento de terceros</strong>. No se usa Google Analytics, Meta Pixel ni ningún servicio externo de medición. Si en el futuro se incorporan, serán informadas y requerirán tu consentimiento previo.</p>
+          </div>
+        </div>
+
+        <div class="cookie-rights">
+          <p class="cookie-rights__title">Responsable del tratamiento</p>
+          <p>EQCLYPSE · <a href="mailto:hola@eqclypse.com">hola@eqclypse.com</a></p>
+          <p class="cookie-rights__title">Tus derechos (arts. 15–22 RGPD)</p>
+          <p>
+            Tienes derecho a <strong>acceder, rectificar, suprimir, oponerte, portar y limitar</strong> el tratamiento de tus datos en cualquier momento. Puedes ejercerlos escribiendo a
+            <a href="mailto:hola@eqclypse.com">hola@eqclypse.com</a>.
+            Si consideras que tus derechos no han sido atendidos, puedes reclamar ante la
+            <a href="https://www.aepd.es" target="_blank" rel="noreferrer noopener">Agencia Española de Protección de Datos (aepd.es)</a>.
+          </p>
+          <p>Puedes cambiar o retirar tu consentimiento en cualquier momento desde el pie de página → <em>Cookies</em>.</p>
+        </div>
+
+        <div class="cookie-gate__actions">
+          <button class="button button--dark" type="button" id="cookieAccept">Aceptar todas</button>
+          <button class="button button--ghost" type="button" id="cookieReject">Solo necesarias</button>
+        </div>
       </div>
     </div>
 
