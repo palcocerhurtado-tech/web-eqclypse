@@ -1087,6 +1087,40 @@ h3 {
   color: var(--black);
 }
 
+/* ─── Historia – Bodegas Aragonesas origin badge ─── */
+
+.history-origin-badge {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 48px;
+  opacity: 0.72;
+  transition: opacity 0.3s ease;
+}
+
+.history-origin-badge:hover {
+  opacity: 1;
+}
+
+.history-bodega-logo {
+  width: clamp(180px, 26vw, 300px);
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+  filter: brightness(0); /* render on gold bg as deep black silhouette */
+}
+
+.history-brand-seal {
+  margin-top: 28px;
+  color: rgba(15, 14, 12, 0.4);
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: lowercase;
+  font-variant: small-caps;
+}
+
 /* ─── Moments ─── */
 
 .moments-section {
@@ -1306,6 +1340,41 @@ h3 {
 .legal-links button:hover,
 .legal-links button:focus-visible {
   color: var(--gold);
+}
+
+/* ─── Footer – Bodegas Aragonesas institutional signature ─── */
+
+.footer-bodega-signature {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 0 4px;
+  border-top: 1px solid rgba(255, 215, 91, 0.06);
+  opacity: 0.52;
+  transition: opacity 0.3s ease;
+}
+
+.footer-bodega-signature:hover {
+  opacity: 0.78;
+}
+
+.footer-bodega-logo {
+  width: clamp(130px, 18vw, 240px);
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
+  filter: brightness(0) invert(1); /* white silhouette on dark footer */
+}
+
+.footer-origin-text {
+  color: rgba(243, 239, 226, 0.45);
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* ─────────────────────────────────────────
