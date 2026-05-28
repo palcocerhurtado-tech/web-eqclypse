@@ -1,3 +1,6 @@
+// Cámara Velada: bloquear en cada recarga antes de que cualquier otro código corra
+localStorage.removeItem("eqclypse_camara_v1");
+
 const PRODUCTS = [
   {
     id: "tinto",
@@ -75,6 +78,7 @@ const PRODUCTS = [
   },
   /* ─── Cámara Velada — artículos exclusivos ─── */
   {
+    camaraOnly: true,
     id: "camara-hielera",
     name: "Hielera EQCLYPSE",
     type: "Cámara Velada · Edición limitada",
@@ -85,6 +89,7 @@ const PRODUCTS = [
     options: [{ id: "unidad", label: "Unidad", price: 23.54 }],
   },
   {
+    camaraOnly: true,
     id: "camara-posavasos",
     name: "Pack de Posavasos Premium",
     type: "Cámara Velada · Edición limitada",
@@ -95,6 +100,7 @@ const PRODUCTS = [
     options: [{ id: "pack", label: "Pack posavasos", price: 15.89 }],
   },
   {
+    camaraOnly: true,
     id: "camara-copas",
     name: "Pack de 6 Copas Premium",
     type: "Cámara Velada · Edición limitada",
@@ -105,6 +111,7 @@ const PRODUCTS = [
     options: [{ id: "pack", label: "Pack 6 copas", price: 55 }],
   },
   {
+    camaraOnly: true,
     id: "camara-pack-intimo",
     name: "Pack Íntimo EQCLYPSE",
     type: "Cámara Velada · Pack exclusivo",
@@ -273,7 +280,8 @@ function setupHeader() {
 }
 
 function renderProducts() {
-  els.productGrid.innerHTML = PRODUCTS.map((product) => {
+  const publicProducts = PRODUCTS.filter((p) => !p.camaraOnly);
+  els.productGrid.innerHTML = publicProducts.map((product) => {
     const options = product.options
       .map((option) => {
         return `<option value="${option.id}">${option.label} · ${currency.format(option.price)}</option>`;
@@ -441,8 +449,10 @@ function renderCart() {
 
   if (els.cartDiscount) {
     els.cartDiscount.hidden = !eligible;
-    if (eligible && els.cartDiscountAmount) {
-      els.cartDiscountAmount.textContent = "−" + currency.format(raw * 0.11);
+    if (els.cartDiscountAmount) {
+      els.cartDiscountAmount.textContent = eligible
+        ? "−" + currency.format(raw * 0.11)
+        : "";
     }
   }
 

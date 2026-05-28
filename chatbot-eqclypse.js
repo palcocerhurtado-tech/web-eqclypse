@@ -1,5 +1,5 @@
 /**
- * chatbot-eqclypse.js — v6
+ * chatbot-eqclypse.js — v7
  * Nuevas funcionalidades: carrito, localizador, recomendador, seguimiento pedido,
  * drops, memoria de nombre, modo nocturno, chips visuales, código descuento, encuesta.
  */
@@ -293,7 +293,8 @@
   }
 
   /* ─── Quiz de acceso a La Cámara Velada ──────────────────── */
-  var QUIZ = [
+  /* Pool completo — se eligen 5 al azar en cada sesión */
+  var QUIZ_POOL = [
     {
       q      : '¿En qué país se elaboró el vino más antiguo conocido, con más de 8.000 años de historia?',
       opts   : ['Georgia', 'Egipto', 'Mesopotamia', 'China'],
@@ -319,7 +320,69 @@
       opts   : ['Louis Pasteur', 'Antoine Lavoisier', 'Alexander Fleming', 'Justus von Liebig'],
       correct: 0,
     },
+    {
+      q      : '¿Cuál es la variedad tinta más plantada de España?',
+      opts   : ['Tempranillo', 'Garnacha', 'Monastrell', 'Cabernet Sauvignon'],
+      correct: 0,
+    },
+    {
+      q      : '¿En qué región española se encuentra la Denominación de Origen Campo de Borja?',
+      opts   : ['Aragón', 'Castilla-La Mancha', 'La Rioja', 'Navarra'],
+      correct: 0,
+    },
+    {
+      q      : '¿Qué uva predomina en la DO Campo de Borja con más del 70% de la superficie vitícola?',
+      opts   : ['Garnacha', 'Tempranillo', 'Cabernet Sauvignon', 'Merlot'],
+      correct: 0,
+    },
+    {
+      q      : '¿Cómo se llama el viento del noroeste que baja desde los Pirineos y que actúa como agente sanitario natural en los viñedos de Aragón?',
+      opts   : ['El cierzo', 'El levante', 'El bochorno', 'La tramontana'],
+      correct: 0,
+    },
+    {
+      q      : '¿Qué nombre recibe la poda tradicional de la viña que no requiere espaldera y da forma de arbusto a la cepa?',
+      opts   : ['En vaso', 'En espaldera', 'En lira', 'En cordón Royat'],
+      correct: 0,
+    },
+    {
+      q      : '¿Cuántos mililitros contiene una botella estándar de vino?',
+      opts   : ['750 ml', '700 ml', '650 ml', '800 ml'],
+      correct: 0,
+    },
+    {
+      q      : '¿Qué nombre recibe el hollejo de la uva que flota en la parte superior del depósito durante la fermentación?',
+      opts   : ['Sombrero', 'Lía', 'Sedimento', 'Orujo'],
+      correct: 0,
+    },
+    {
+      q      : '¿Cómo se denomina el proceso de mover el mosto desde la parte inferior del depósito hasta el sombrero para extraer color y taninos?',
+      opts   : ['Remontado', 'Trasiego', 'Sangría', 'Desfangado'],
+      correct: 0,
+    },
+    {
+      q      : '¿Cuál es el país con mayor superficie de viñedo del mundo?',
+      opts   : ['España', 'Francia', 'Italia', 'China'],
+      correct: 0,
+    },
+    {
+      q      : '¿Qué significa el término "añada" en el mundo del vino?',
+      opts   : ['El año de la cosecha', 'El año de embotellado', 'El tiempo de crianza', 'El año de fundación de la bodega'],
+      correct: 0,
+    },
   ];
+
+  /* Mezcla Fisher-Yates y devuelve 5 preguntas aleatorias del pool */
+  function buildQuiz() {
+    var pool = QUIZ_POOL.slice();
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+    }
+    return pool.slice(0, 5);
+  }
+
+  var QUIZ = [];
 
   /* ─── NLP (texto libre) ───────────────────────────────────── */
   var NLP = [
@@ -551,6 +614,7 @@
 
   /* ─── Quiz ───────────────────────────────────────────────── */
   function startQuiz() {
+    QUIZ          = buildQuiz(); // nueva selección aleatoria en cada intento
     S.quizActive  = true;
     S.quizIndex   = 0;
     S.quizCorrect = 0;
