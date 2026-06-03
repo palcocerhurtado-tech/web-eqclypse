@@ -630,6 +630,54 @@ h3 {
   opacity: 0.55;
 }
 
+/* ─── Scroll-driven video ─────────────────────────────────────── */
+
+.scroll-video-section {
+  background: var(--black);
+}
+
+/* El track es alto para dar "recorrido" al scroll —
+   300vh = el usuario tarda ~3 pantallas en atravesarlo */
+.scroll-video-track {
+  position: relative;
+  height: 300vh;
+}
+
+/* El vídeo se queda fijo mientras se hace scroll por el track */
+.scroll-video-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scroll-video-sticky video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Barra de progreso fina en la parte inferior */
+.scroll-video-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 215, 91, 0.12);
+}
+
+.scroll-video-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  transition: width 0.05s linear;
+}
+
 /* ─── Ritual / intro band ─── */
 
 .intro-band {

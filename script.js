@@ -207,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupRevealObserver();
   setupHeroParticles();
   setupHeroParallax();
+  setupScrollVideo();
 });
 
 function cacheElements() {
@@ -673,6 +674,50 @@ function readStorage(key, fallback) {
     return value ? JSON.parse(value) : fallback;
   } catch {
     return fallback;
+  }
+}
+
+/* ─── Scroll-driven video ───────────────────────────────────── */
+function setupScrollVideo() {
+  const section = document.getElementById("scrollVideo");
+  const video   = document.getElementById("scrollVideoEl");
+  const bar     = document.getElementById("scrollVideoBar");
+  if (!section || !video || !bar) return;
+
+  // Esperar a que el vídeo tenga metadatos para conocer su duración
+  function init() {
+    if (!video.duration) return;
+
+    let ticking = false;
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const rect     = section.getBoundingClientRect();
+        const trackH   = section.offsetHeight - window.innerHeight;
+
+        // Progreso 0→1 mientras el usuario atraviesa el track
+        const progress = Math.min(Math.max(-rect.top / trackH, 0), 1);
+
+        // Mapear progreso a currentTime del vídeo
+        video.currentTime = progress * video.duration;
+
+        // Actualizar barra de progreso
+        bar.style.width = (progress * 100) + "%";
+
+        ticking = false;
+      });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll(); // estado inicial
+  }
+
+  if (video.readyState >= 1) {
+    init();
+  } else {
+    video.addEventListener("loadedmetadata", init, { once: true });
   }
 }
 
