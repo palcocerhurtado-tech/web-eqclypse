@@ -205,6 +205,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setupCircleForm();
   setupLegalModal();
   setupRevealObserver();
+  setupHeroParticles();
+  setupHeroParallax();
 });
 
 function cacheElements() {
@@ -672,4 +674,87 @@ function readStorage(key, fallback) {
   } catch {
     return fallback;
   }
+}
+
+/* ─── Hero: partículas doradas ──────────────────────────────── */
+function setupHeroParticles() {
+  const canvas = document.getElementById("heroParticles");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const hero = canvas.closest(".hero");
+
+  // Reducir en móvil para no afectar rendimiento
+  const COUNT = window.innerWidth < 768 ? 28 : 55;
+
+  function resize() {
+    canvas.width  = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize, { passive: true });
+
+  // Crear partículas
+  const particles = Array.from({ length: COUNT }, () => ({
+    x    : Math.random() * canvas.width,
+    y    : Math.random() * canvas.height,
+    r    : Math.random() * 1.6 + 0.3,          // radio 0.3 – 1.9 px
+    vx   : (Math.random() - 0.5) * 0.18,
+    vy   : -(Math.random() * 0.22 + 0.08),      // siempre hacia arriba
+    alpha: Math.random() * 0.6 + 0.15,
+    pulse: Math.random() * Math.PI * 2,          // fase inicial aleatoria
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p) => {
+      // Pulso de opacidad suave
+      p.pulse += 0.018;
+      const a = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 215, 91, ${a})`;
+      ctx.fill();
+
+      // Mover
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Reciclar cuando sale por arriba o por los lados
+      if (p.y < -4)              p.y = canvas.height + 4;
+      if (p.x < -4)              p.x = canvas.width  + 4;
+      if (p.x > canvas.width + 4) p.x = -4;
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+}
+
+/* ─── Hero: parallax suave en scroll ────────────────────────── */
+function setupHeroParallax() {
+  const left   = document.querySelector(".hero-bottle--left");
+  const center = document.querySelector(".hero-bottle--center");
+  const right  = document.querySelector(".hero-bottle--right");
+  if (!left || !center || !right) return;
+
+  // Usamos CSS custom properties para no romper las animaciones de float
+  // La animación float ya usa transform; el parallax lo aplicamos
+  // directamente a margin-top para no interferir
+  let ticking = false;
+
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = Math.min(window.scrollY, window.innerHeight);
+      left.style.marginTop   = `${y * 0.06}px`;
+      center.style.marginTop = `${y * 0.10}px`;
+      right.style.marginTop  = `${y * 0.07}px`;
+      ticking = false;
+    });
+  }, { passive: true });
 }
