@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupRevealObserver();
   setupHeroParticles();
   setupHeroParallax();
-  setupScrollVideo();
+  setupScrollSequence();
 });
 
 function cacheElements() {
@@ -677,48 +677,48 @@ function readStorage(key, fallback) {
   }
 }
 
-/* ─── Scroll-driven video ───────────────────────────────────── */
-function setupScrollVideo() {
-  const section = document.getElementById("scrollVideo");
-  const video   = document.getElementById("scrollVideoEl");
-  const bar     = document.getElementById("scrollVideoBar");
-  if (!section || !video || !bar) return;
+/* ─── Scroll-driven frame sequence ─────────────────────────── */
+function setupScrollSequence() {
+  const section = document.getElementById("scrollSeq");
+  const bar     = document.getElementById("scrollSeqBar");
+  if (!section) return;
 
-  // Esperar a que el vídeo tenga metadatos para conocer su duración
-  function init() {
-    if (!video.duration) return;
+  const frames  = Array.from(section.querySelectorAll(".seq-frame"));
+  const total   = frames.length;
+  if (!total) return;
 
-    let ticking = false;
+  let ticking   = false;
+  let lastIndex = 0;
 
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const rect     = section.getBoundingClientRect();
-        const trackH   = section.offsetHeight - window.innerHeight;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const rect     = section.getBoundingClientRect();
+      const trackH   = section.offsetHeight - window.innerHeight;
 
-        // Progreso 0→1 mientras el usuario atraviesa el track
-        const progress = Math.min(Math.max(-rect.top / trackH, 0), 1);
+      // Progreso 0 → 1 mientras el usuario atraviesa el track
+      const progress = Math.min(Math.max(-rect.top / trackH, 0), 1);
 
-        // Mapear progreso a currentTime del vídeo
-        video.currentTime = progress * video.duration;
+      // Índice de frame: 0 a total-1
+      const index = Math.min(Math.floor(progress * total), total - 1);
 
-        // Actualizar barra de progreso
-        bar.style.width = (progress * 100) + "%";
+      // Solo actualizar DOM si cambió el frame
+      if (index !== lastIndex) {
+        frames[lastIndex].classList.remove("seq-frame--active");
+        frames[index].classList.add("seq-frame--active");
+        lastIndex = index;
+      }
 
-        ticking = false;
-      });
-    }
+      // Barra de progreso
+      if (bar) bar.style.width = (progress * 100) + "%";
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // estado inicial
+      ticking = false;
+    });
   }
 
-  if (video.readyState >= 1) {
-    init();
-  } else {
-    video.addEventListener("loadedmetadata", init, { once: true });
-  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll(); // estado inicial
 }
 
 /* ─── Hero: partículas doradas ──────────────────────────────── */

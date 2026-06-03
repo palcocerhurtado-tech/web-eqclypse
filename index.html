@@ -233,20 +233,20 @@
         </div>
       </section>
 
-      <!-- ── Scroll-driven video ── -->
-      <section class="scroll-video-section" id="scrollVideo" aria-hidden="true">
-        <div class="scroll-video-track">
-          <div class="scroll-video-sticky">
-            <video
-              id="scrollVideoEl"
-              src="assets/scroll-animation.mp4"
-              muted
-              playsinline
-              preload="auto"
-              disablepictureinpicture
-            ></video>
-            <div class="scroll-video-progress">
-              <div class="scroll-video-bar" id="scrollVideoBar"></div>
+      <!-- ── Scroll-driven sequence ── -->
+      <section class="scroll-seq-section" id="scrollSeq" aria-hidden="true">
+        <div class="scroll-seq-track">
+          <div class="scroll-seq-sticky">
+            <div class="scroll-seq-canvas" id="scrollSeqCanvas">
+              <img class="seq-frame seq-frame--active" src="assets/seq-frame-01.png" alt="" draggable="false" />
+              <img class="seq-frame" src="assets/seq-frame-02.png" alt="" draggable="false" />
+              <img class="seq-frame" src="assets/seq-frame-03.png" alt="" draggable="false" />
+              <img class="seq-frame" src="assets/seq-frame-04.png" alt="" draggable="false" />
+              <img class="seq-frame" src="assets/seq-frame-05.png" alt="" draggable="false" />
+              <img class="seq-frame" src="assets/seq-frame-06.png" alt="" draggable="false" />
+            </div>
+            <div class="scroll-seq-progress">
+              <div class="scroll-seq-bar" id="scrollSeqBar"></div>
             </div>
           </div>
         </div>
@@ -727,7 +727,7 @@
       </div>
     </div>
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=6"></script>
     <script src="chatbot-eqclypse.js?v=7"></script>
   </body>
 </html>
