@@ -687,6 +687,49 @@ function setupScrollSequence() {
   const total   = frames.length;
   if (!total) return;
 
+  // Partículas en la sección de secuencia (reutiliza misma lógica que hero)
+  const canvas  = document.getElementById("seqParticles");
+  if (canvas) {
+    const ctx     = canvas.getContext("2d");
+    const sticky  = section.querySelector(".scroll-seq-sticky");
+    const COUNT   = window.innerWidth < 768 ? 20 : 40;
+
+    function resizeSeq() {
+      canvas.width  = sticky.offsetWidth;
+      canvas.height = sticky.offsetHeight;
+    }
+    resizeSeq();
+    window.addEventListener("resize", resizeSeq, { passive: true });
+
+    const pts = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.4 + 0.3,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: -(Math.random() * 0.2 + 0.06),
+      alpha: Math.random() * 0.55 + 0.1,
+      pulse: Math.random() * Math.PI * 2,
+    }));
+
+    (function drawSeq() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pts.forEach((p) => {
+        p.pulse += 0.02;
+        const a = p.alpha * (0.55 + 0.45 * Math.sin(p.pulse));
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 215, 91, ${a})`;
+        ctx.fill();
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.y < -4)               p.y = canvas.height + 4;
+        if (p.x < -4)               p.x = canvas.width  + 4;
+        if (p.x > canvas.width + 4) p.x = -4;
+      });
+      requestAnimationFrame(drawSeq);
+    }());
+  }
+
   let ticking   = false;
   let lastIndex = 0;
 
@@ -694,31 +737,24 @@ function setupScrollSequence() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      const rect     = section.getBoundingClientRect();
-      const trackH   = section.offsetHeight - window.innerHeight;
-
-      // Progreso 0 → 1 mientras el usuario atraviesa el track
+      const rect    = section.getBoundingClientRect();
+      const trackH  = section.offsetHeight - window.innerHeight;
       const progress = Math.min(Math.max(-rect.top / trackH, 0), 1);
+      const index   = Math.min(Math.floor(progress * total), total - 1);
 
-      // Índice de frame: 0 a total-1
-      const index = Math.min(Math.floor(progress * total), total - 1);
-
-      // Solo actualizar DOM si cambió el frame
       if (index !== lastIndex) {
         frames[lastIndex].classList.remove("seq-frame--active");
         frames[index].classList.add("seq-frame--active");
         lastIndex = index;
       }
 
-      // Barra de progreso
       if (bar) bar.style.width = (progress * 100) + "%";
-
       ticking = false;
     });
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll(); // estado inicial
+  onScroll();
 }
 
 /* ─── Hero: partículas doradas ──────────────────────────────── */
