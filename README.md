@@ -18,6 +18,15 @@ web eqclypse/
     ├── botella-blanco-00.png
     ├── pack-cata-nocturna.png
     ├── pack-urban-night.png
+    ├── social-reel-01.mp4
+    ├── social-reel-02.mp4
+    ├── social-brindar.png
+    ├── social-tu-noche.png
+    ├── social-plan-cambio.png
+    ├── social-tu-ritmo.png
+    ├── social-entra-plan.png
+    ├── social-previa.png
+    ├── social-plan-encaja.png
     ├── etiqueta-eqclypse.png
     ├── brand-board.png
     └── favicon.png

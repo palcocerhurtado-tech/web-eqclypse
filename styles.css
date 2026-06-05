@@ -630,109 +630,167 @@ h3 {
   opacity: 0.55;
 }
 
-/* ─── Scroll-driven frame sequence ───────────────────────────── */
+/* ─── Social content ─────────────────────────────────────────── */
 
-.scroll-seq-section {
-  background: #000;
-}
-
-/* 280vh = rápido pero controlable */
-.scroll-seq-track {
+.social-section {
   position: relative;
-  height: 280vh;
-}
-
-.scroll-seq-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Glow dorado de fondo que da profundidad */
-  background: radial-gradient(
-    ellipse 55% 60% at 50% 80%,
-    rgba(255, 215, 91, 0.07),
-    transparent 70%
-  );
+  color: var(--cream);
+  background:
+    radial-gradient(circle at 82% 14%, rgba(255, 215, 91, 0.18), transparent 28%),
+    linear-gradient(145deg, #11110f 0%, var(--black) 48%, #24221e 100%);
 }
 
-/* Canvas centrado y más pequeño para ver la imagen completa */
-.scroll-seq-canvas {
-  position: relative;
-  width: min(400px, 55vw);
-  height: min(82vh, 680px);
-  flex-shrink: 0;
-}
-
-.seq-frame {
+.social-section::before {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  opacity: 0;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Pop sutil al activar cada frame */
-@keyframes seq-pop {
-  0%   { transform: scale(0.96); }
-  100% { transform: scale(1); }
-}
-
-.seq-frame--active {
-  opacity: 1;
-  animation: seq-pop 0.25s ease-out forwards;
-}
-
-/* Badge "0.0" flotante — espejo del orbit-badge del hero */
-.seq-badge {
-  position: absolute;
-  top: 12%;
-  right: calc(50% - min(200px, 27.5vw) - 44px);
-  z-index: 10;
-  display: grid;
-  place-items: center;
-  width: 78px;
-  height: 78px;
-  border-radius: 50%;
-  background: var(--gold);
-  color: var(--black);
+  top: 38px;
+  right: -4vw;
+  color: rgba(255, 215, 91, 0.07);
   font-family: var(--display);
-  font-size: 1.45rem;
-  letter-spacing: 0.04em;
-  box-shadow: 0 8px 36px rgba(255, 215, 91, 0.5);
-  animation: badge-drift 8s ease-in-out infinite 1s;
-}
-
-/* Canvas de partículas de la secuencia */
-#seqParticles {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  font-size: clamp(7rem, 16vw, 15rem);
+  line-height: 0.8;
+  content: "SOCIAL";
   pointer-events: none;
-  opacity: 0.45;
 }
 
-/* Barra de progreso dorada */
-.scroll-seq-progress {
+.social-heading {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: end;
+  margin-bottom: 38px;
+}
+
+.social-heading h2 {
+  max-width: 760px;
+  color: var(--cream);
+}
+
+.social-heading p:not(.eyebrow) {
+  max-width: 660px;
+  color: rgba(243, 239, 226, 0.74);
+}
+
+.social-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.social-reels {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(260px, 0.58fr);
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.social-reel,
+.social-post {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(243, 239, 226, 0.12);
+  border-radius: 8px;
+  background: rgba(250, 248, 240, 0.05);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.26);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.social-reel:hover,
+.social-reel:focus-within,
+.social-post:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 215, 91, 0.42);
+  box-shadow: 0 32px 92px rgba(0, 0, 0, 0.34);
+}
+
+.social-reel video {
+  width: 100%;
+  height: 560px;
+  object-fit: cover;
+  background: #0a0a08;
+}
+
+.social-reel--feature video {
+  height: 640px;
+}
+
+.social-reel div {
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  height: 2px;
-  background: rgba(255, 215, 91, 0.15);
-  z-index: 10;
+  padding: 72px 22px 20px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.78));
 }
 
-.scroll-seq-bar {
-  height: 100%;
-  width: 0%;
-  background: var(--gold);
+.social-reel span,
+.social-post::after {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.social-reel h3 {
+  margin-bottom: 0;
+  color: var(--cream);
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 3vw, 3.2rem);
+  line-height: 0.96;
+}
+
+.social-gallery {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.social-post {
+  display: flex;
+  min-height: 0;
+}
+
+.social-post--tall {
+  grid-row: span 1;
+}
+
+.social-post--wide {
+  grid-column: span 1;
+  aspect-ratio: auto;
+}
+
+.social-post img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transform: scale(1.01);
+  transition: transform 260ms ease;
+}
+
+.social-post:hover img {
+  transform: scale(1.045);
+}
+
+.social-post::after {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 215, 91, 0.28);
+  border-radius: 999px;
+  background: rgba(23, 23, 20, 0.72);
+  content: "EQCLYPSE";
 }
 
 /* ─── Ritual / intro band ─── */
@@ -2846,6 +2904,24 @@ h3 {
   .route-item:last-child {
     border-bottom: none;
   }
+
+  .social-heading,
+  .social-reels {
+    grid-template-columns: 1fr;
+  }
+
+  .social-actions {
+    justify-content: flex-start;
+  }
+
+  .social-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .social-reel video,
+  .social-reel--feature video {
+    height: 520px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -2908,6 +2984,14 @@ h3 {
   .footer-contact {
     justify-content: flex-start;
   }
+
+  .social-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .social-post--wide {
+    grid-column: span 1;
+  }
 }
 
 @media (max-width: 680px) {
@@ -2940,6 +3024,35 @@ h3 {
 
   .cookie-gate__actions {
     display: grid;
+  }
+
+  .social-section::before {
+    top: 26px;
+    right: -18vw;
+  }
+
+  .social-heading {
+    gap: 16px;
+  }
+
+  .social-actions {
+    display: grid;
+  }
+
+  .social-reel video,
+  .social-reel--feature video {
+    height: min(72vh, 560px);
+  }
+
+  .social-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .social-post,
+  .social-post--tall,
+  .social-post--wide {
+    aspect-ratio: auto;
+    min-height: 0;
   }
 
   .hero__visual {
