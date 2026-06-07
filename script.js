@@ -680,6 +680,7 @@ function readStorage(key, fallback) {
 function setupScrollVideoTransition() {
   const section = document.querySelector("#homeRedesTransition");
   const video = document.querySelector("#homeRedesVideo");
+  const backdrop = document.querySelector("#homeRedesVideoBackdrop");
   const progressBar = document.querySelector("#homeRedesProgress");
 
   if (!section || !video) return;
@@ -687,6 +688,7 @@ function setupScrollVideoTransition() {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduceMotion) {
     video.currentTime = 0;
+    if (backdrop) backdrop.currentTime = 0;
     if (progressBar) progressBar.style.width = "100%";
     return;
   }
@@ -705,7 +707,8 @@ function setupScrollVideoTransition() {
     const progress = clamp(-rect.top / scrollRange, 0, 1);
     const targetTime = clamp(duration * progress, 0, Math.max(duration - 0.04, 0));
 
-    seekScrollVideo(targetTime);
+    seekScrollVideo(video, targetTime);
+    if (backdrop) seekScrollVideo(backdrop, targetTime);
 
     if (progressBar) {
       progressBar.style.width = `${progress * 100}%`;
@@ -717,15 +720,15 @@ function setupScrollVideoTransition() {
     raf = window.requestAnimationFrame(updateVideoTime);
   }
 
-  function seekScrollVideo(targetTime) {
-    if (Math.abs(video.currentTime - targetTime) <= 0.035) return;
+  function seekScrollVideo(targetVideo, targetTime) {
+    if (Math.abs(targetVideo.currentTime - targetTime) <= 0.035) return;
 
     try {
-      video.currentTime = targetTime;
+      targetVideo.currentTime = targetTime;
     } catch {
-      if (typeof video.fastSeek === "function") {
+      if (typeof targetVideo.fastSeek === "function") {
         try {
-          video.fastSeek(targetTime);
+          targetVideo.fastSeek(targetTime);
         } catch {
           // If a browser refuses programmatic seeking, keep the visual frame stable.
         }
@@ -735,8 +738,12 @@ function setupScrollVideoTransition() {
 
   function primeDecoder() {
     const playPromise = video.play();
+    const backdropPromise = backdrop ? backdrop.play() : null;
     if (playPromise && typeof playPromise.then === "function") {
       playPromise.then(() => video.pause()).catch(() => {});
+    }
+    if (backdropPromise && typeof backdropPromise.then === "function") {
+      backdropPromise.then(() => backdrop.pause()).catch(() => {});
     }
     window.removeEventListener("pointerdown", primeDecoder);
   }
