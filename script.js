@@ -207,6 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupRevealObserver();
   setupHeroParticles();
   setupHeroParallax();
+  setupScrollVideoTransition();
 });
 
 function cacheElements() {
@@ -674,6 +675,87 @@ function readStorage(key, fallback) {
   } catch {
     return fallback;
   }
+}
+
+function setupScrollVideoTransition() {
+  const section = document.querySelector("#homeRedesTransition");
+  const video = document.querySelector("#homeRedesVideo");
+  const progressBar = document.querySelector("#homeRedesProgress");
+
+  if (!section || !video) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) {
+    video.currentTime = 0;
+    if (progressBar) progressBar.style.width = "100%";
+    return;
+  }
+
+  let duration = 0;
+  let raf = null;
+
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+  function updateVideoTime() {
+    raf = null;
+    if (!duration || !Number.isFinite(duration)) return;
+
+    const scrollRange = Math.max(section.offsetHeight - window.innerHeight, 1);
+    const rect = section.getBoundingClientRect();
+    const progress = clamp(-rect.top / scrollRange, 0, 1);
+    const targetTime = clamp(duration * progress, 0, Math.max(duration - 0.04, 0));
+
+    seekScrollVideo(targetTime);
+
+    if (progressBar) {
+      progressBar.style.width = `${progress * 100}%`;
+    }
+  }
+
+  function requestUpdate() {
+    if (raf) return;
+    raf = window.requestAnimationFrame(updateVideoTime);
+  }
+
+  function seekScrollVideo(targetTime) {
+    if (Math.abs(video.currentTime - targetTime) <= 0.035) return;
+
+    try {
+      video.currentTime = targetTime;
+    } catch {
+      if (typeof video.fastSeek === "function") {
+        try {
+          video.fastSeek(targetTime);
+        } catch {
+          // If a browser refuses programmatic seeking, keep the visual frame stable.
+        }
+      }
+    }
+  }
+
+  function primeDecoder() {
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.then === "function") {
+      playPromise.then(() => video.pause()).catch(() => {});
+    }
+    window.removeEventListener("pointerdown", primeDecoder);
+  }
+
+  video.addEventListener("loadedmetadata", () => {
+    duration = video.duration || 0;
+    video.pause();
+    requestUpdate();
+  });
+
+  if (video.readyState >= 1) {
+    duration = video.duration || 0;
+    requestUpdate();
+  }
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate, { passive: true });
+  window.addEventListener("pointerdown", primeDecoder, { once: true, passive: true });
+  requestUpdate();
 }
 
 /* ─── Hero: partículas doradas ──────────────────────────────── */

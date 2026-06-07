@@ -18,6 +18,7 @@ web eqclypse/
     ├── botella-blanco-00.png
     ├── pack-cata-nocturna.png
     ├── pack-urban-night.png
+    ├── home-redes-transition.mp4
     ├── social-reel-01.mp4
     ├── social-reel-02.mp4
     ├── social-brindar.png
