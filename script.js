@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupRevealObserver();
   setupHeroParticles();
   setupHeroParallax();
-  setupScrollVideoTransition();
+  setupInlineVideoPlayback();
 });
 
 function cacheElements() {
@@ -677,92 +677,34 @@ function readStorage(key, fallback) {
   }
 }
 
-function setupScrollVideoTransition() {
-  const section = document.querySelector("#homeRedesTransition");
-  const video = document.querySelector("#homeRedesVideo");
-  const backdrop = document.querySelector("#homeRedesVideoBackdrop");
-  const progressBar = document.querySelector("#homeRedesProgress");
+function setupInlineVideoPlayback() {
+  const videos = document.querySelectorAll("[data-inline-video]");
+  if (!videos.length) return;
 
-  if (!section || !video) return;
+  const playVideo = (video) => {
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
+  };
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion) {
-    video.currentTime = 0;
-    if (backdrop) backdrop.currentTime = 0;
-    if (progressBar) progressBar.style.width = "100%";
+  if (!("IntersectionObserver" in window)) {
+    videos.forEach(playVideo);
     return;
   }
 
-  let duration = 0;
-  let raf = null;
-
-  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
-  function updateVideoTime() {
-    raf = null;
-    if (!duration || !Number.isFinite(duration)) return;
-
-    const scrollRange = Math.max(section.offsetHeight - window.innerHeight, 1);
-    const rect = section.getBoundingClientRect();
-    const progress = clamp(-rect.top / scrollRange, 0, 1);
-    const targetTime = clamp(duration * progress, 0, Math.max(duration - 0.04, 0));
-
-    seekScrollVideo(video, targetTime);
-    if (backdrop) seekScrollVideo(backdrop, targetTime);
-
-    if (progressBar) {
-      progressBar.style.width = `${progress * 100}%`;
-    }
-  }
-
-  function requestUpdate() {
-    if (raf) return;
-    raf = window.requestAnimationFrame(updateVideoTime);
-  }
-
-  function seekScrollVideo(targetVideo, targetTime) {
-    if (Math.abs(targetVideo.currentTime - targetTime) <= 0.035) return;
-
-    try {
-      targetVideo.currentTime = targetTime;
-    } catch {
-      if (typeof targetVideo.fastSeek === "function") {
-        try {
-          targetVideo.fastSeek(targetTime);
-        } catch {
-          // If a browser refuses programmatic seeking, keep the visual frame stable.
-        }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target;
+      if (entry.isIntersecting) {
+        playVideo(video);
+      } else {
+        video.pause();
       }
-    }
-  }
+    });
+  }, { threshold: 0.35 });
 
-  function primeDecoder() {
-    const playPromise = video.play();
-    const backdropPromise = backdrop ? backdrop.play() : null;
-    if (playPromise && typeof playPromise.then === "function") {
-      playPromise.then(() => video.pause()).catch(() => {});
-    }
-    if (backdropPromise && typeof backdropPromise.then === "function") {
-      backdropPromise.then(() => backdrop.pause()).catch(() => {});
-    }
-    window.removeEventListener("pointerdown", primeDecoder);
-  }
-
-  video.addEventListener("loadedmetadata", () => {
-    duration = video.duration || 0;
-    video.pause();
-    requestUpdate();
-  });
-
-  if (video.readyState >= 1) {
-    duration = video.duration || 0;
-    requestUpdate();
-  }
-
-  window.addEventListener("scroll", requestUpdate, { passive: true });
-  window.addEventListener("resize", requestUpdate, { passive: true });
-  window.addEventListener("pointerdown", primeDecoder, { once: true, passive: true });
-  requestUpdate();
+  videos.forEach((video) => observer.observe(video));
 }
 
 /* ─── Hero: partículas doradas ──────────────────────────────── */
