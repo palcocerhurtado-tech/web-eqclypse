@@ -207,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupRevealObserver();
   setupHeroParticles();
   setupHeroParallax();
-  setupInlineVideoPlayback();
 });
 
 function cacheElements() {
@@ -675,36 +674,6 @@ function readStorage(key, fallback) {
   } catch {
     return fallback;
   }
-}
-
-function setupInlineVideoPlayback() {
-  const videos = document.querySelectorAll("[data-inline-video]");
-  if (!videos.length) return;
-
-  const playVideo = (video) => {
-    const playPromise = video.play();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {});
-    }
-  };
-
-  if (!("IntersectionObserver" in window)) {
-    videos.forEach(playVideo);
-    return;
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const video = entry.target;
-      if (entry.isIntersecting) {
-        playVideo(video);
-      } else {
-        video.pause();
-      }
-    });
-  }, { threshold: 0.35 });
-
-  videos.forEach((video) => observer.observe(video));
 }
 
 /* ─── Hero: partículas doradas ──────────────────────────────── */
